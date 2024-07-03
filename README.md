@@ -20,7 +20,9 @@ Repeating the features because of the different device type is time-wasting righ
 
 
 [Google maps](https://github.com/WissamALSbenaty/Ultra-Map-Place-Picker/blob/main/assets/videos/google.mp4)
-[Petal maps](https://github.com/WissamALSbenaty/Ultra-Map-Place-Picker/blob/main/assets/videos/petal.mp4)
+[Petal maps](https://github.com/WissamALSbenaty/Ultra-Map-Place-Picker/blob/main/assets/videos/google.mp4)
+[google.mp4](assets%2Fvideos%2Fgoogle.mp4)
+[petal.mp4](assets%2Fvideos%2Fpetal.mp4)
 
 ## Getting started
 To ensure proper installation, please refer to the documentation for the following libraries: 
