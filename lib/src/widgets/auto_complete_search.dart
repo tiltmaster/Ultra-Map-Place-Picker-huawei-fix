@@ -113,8 +113,8 @@ class AutoCompleteSearchState extends State<AutoCompleteSearch> {
                   const SizedBox(width: 10),
                   const Icon(Icons.search),
                   const SizedBox(width: 10),
-
-                  Expanded(child: TextField(
+                  Expanded(
+                      child: TextField(
                     controller: controller,
                     focusNode: focus,
                     decoration: InputDecoration(
@@ -129,16 +129,15 @@ class AutoCompleteSearchState extends State<AutoCompleteSearch> {
                       contentPadding: widget.contentPadding,
                     ),
                   )),
-
-                  TextClearIcon(onTap:clearText,),
+                  TextClearIcon(
+                    onTap: clearText,
+                  ),
                 ],
               ),
             ),
           )
         : Container();
   }
-
-
 
   _onSearchInputChange() {
     if (!mounted) {
@@ -301,5 +300,4 @@ class AutoCompleteSearchState extends State<AutoCompleteSearch> {
     clearText();
     focus.unfocus();
   }
-
 }

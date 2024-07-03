@@ -14,8 +14,14 @@ class DefaultPlaceWidget extends StatelessWidget {
   final String? selectedText;
   final ValueChanged<PickResultModel>? onPlacePicked;
 
-  const DefaultPlaceWidget({super.key,required this.data, required this.state,required this.pickArea,
-    required this.outsideOfPickAreaText,required this.selectedText,required this.onPlacePicked});
+  const DefaultPlaceWidget(
+      {super.key,
+      required this.data,
+      required this.state,
+      required this.pickArea,
+      required this.outsideOfPickAreaText,
+      required this.selectedText,
+      required this.onPlacePicked});
 
   @override
   Widget build(BuildContext context) {
@@ -27,10 +33,15 @@ class DefaultPlaceWidget extends StatelessWidget {
       borderRadius: BorderRadius.circular(12.0),
       elevation: 4.0,
       color: Theme.of(context).cardColor,
-      child: state == SearchingState.searching ? const MapLoadingIndicator() : SelectionDetails(
-
-          result: data!, pickArea: pickArea, outsideOfPickAreaText:outsideOfPickAreaText,
-        onPlacePicked:onPlacePicked, selectText:selectedText,),
+      child: state == SearchingState.searching
+          ? const MapLoadingIndicator()
+          : SelectionDetails(
+              result: data!,
+              pickArea: pickArea,
+              outsideOfPickAreaText: outsideOfPickAreaText,
+              onPlacePicked: onPlacePicked,
+              selectText: selectedText,
+            ),
     );
   }
 }

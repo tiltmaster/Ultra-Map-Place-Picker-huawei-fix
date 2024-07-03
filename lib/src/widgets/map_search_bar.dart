@@ -6,8 +6,9 @@ import 'package:ultra_map_place_picker/src/providers/place_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:ultra_map_place_picker/src/widgets/auto_complete_search.dart';
 import 'package:ultra_map_place_picker/src/widgets/intro_modal.dart';
+
 class MapSearchBar extends StatelessWidget {
-  final bool  showIntroModal;
+  final bool showIntroModal;
   final IntroModalWidgetBuilder? introModalWidgetBuilder;
   final VoidCallback? onTapBack;
   final GlobalKey appBarKey;
@@ -29,36 +30,53 @@ class MapSearchBar extends StatelessWidget {
   final List<Component>? autocompleteComponents;
   final void Function(Prediction) onPicked;
 
-  const MapSearchBar({super.key, required this.showIntroModal,
-    required this.introModalWidgetBuilder,required  this.onTapBack, required this.appBarKey,required  this.provider, required this.searchBarController,
-    required  this.autocompleteOffset,required  this.hintText,required  this.searchingText,required  this.region,required  this.strictbounds,
-    required this.autocompleteTypes,required  this.onAutoCompleteFailed, required this.autoCompleteDebounceInMilliseconds,required  this.autocompleteRadius,
-    required this.autocompleteLanguage,required  this.initialSearchString, required this.autocompleteOnTrailingWhitespace, required this.searchForInitialValue,
-    required this.autocompleteComponents,required this.onPicked});
+  const MapSearchBar(
+      {super.key,
+      required this.showIntroModal,
+      required this.introModalWidgetBuilder,
+      required this.onTapBack,
+      required this.appBarKey,
+      required this.provider,
+      required this.searchBarController,
+      required this.autocompleteOffset,
+      required this.hintText,
+      required this.searchingText,
+      required this.region,
+      required this.strictbounds,
+      required this.autocompleteTypes,
+      required this.onAutoCompleteFailed,
+      required this.autoCompleteDebounceInMilliseconds,
+      required this.autocompleteRadius,
+      required this.autocompleteLanguage,
+      required this.initialSearchString,
+      required this.autocompleteOnTrailingWhitespace,
+      required this.searchForInitialValue,
+      required this.autocompleteComponents,
+      required this.onPicked});
 
   @override
   Widget build(BuildContext context) {
-     return Row(
+    return Row(
       children: <Widget>[
         const SizedBox(width: 15),
         (Navigator.of(context).canPop())
             ? Consumer<PlaceProvider>(
-            builder: (final _, final providerInstance, final __) => IconButton(
-                onPressed: () {
-                  if (!showIntroModal || introModalWidgetBuilder == null) {
-                    provider?.debounceTimer?.cancel();
-                    if (onTapBack != null) {
-                      onTapBack!();
-                      return;
-                    }
-                    Navigator.maybePop(context);
-                  }
-                },
-                icon: const Icon(
-                  Icons.arrow_back_ios,
-                ),
-                color: [UltraMapType.normal, UltraMapType.terrain].contains(provider?.mapType) ? Colors.black : Colors.white,
-                padding: EdgeInsets.zero))
+                builder: (final _, final providerInstance, final __) => IconButton(
+                    onPressed: () {
+                      if (!showIntroModal || introModalWidgetBuilder == null) {
+                        provider?.debounceTimer?.cancel();
+                        if (onTapBack != null) {
+                          onTapBack!();
+                          return;
+                        }
+                        Navigator.maybePop(context);
+                      }
+                    },
+                    icon: const Icon(
+                      Icons.arrow_back_ios,
+                    ),
+                    color: [UltraMapType.normal, UltraMapType.terrain].contains(provider?.mapType) ? Colors.black : Colors.white,
+                    padding: EdgeInsets.zero))
             : Container(),
         Expanded(
           child: AutoCompleteSearch(

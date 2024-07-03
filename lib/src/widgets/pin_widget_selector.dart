@@ -8,7 +8,7 @@ typedef PinBuilder = Widget Function(BuildContext context, PinState state);
 
 class PinWidgetSelector extends StatelessWidget {
   final PinBuilder? pinBuilder;
-  const PinWidgetSelector({super.key,required  this.pinBuilder});
+  const PinWidgetSelector({super.key, required this.pinBuilder});
 
   @override
   Widget build(BuildContext context) {

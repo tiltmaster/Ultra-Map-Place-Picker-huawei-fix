@@ -1,9 +1,9 @@
-
-
 class LocationModel {
-  final double latitude, longitude;
+  /// location latitude
+  final double latitude;
 
-  LocationModel(this.latitude,this.longitude);
+  /// location longitude
+  final double longitude;
 
-
+  LocationModel(this.latitude, this.longitude);
 }

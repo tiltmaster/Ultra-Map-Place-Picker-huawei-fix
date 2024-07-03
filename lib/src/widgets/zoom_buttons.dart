@@ -9,11 +9,10 @@ class ZoomButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    PlaceProvider provider=PlaceProvider.of(context,listen: false);
+    PlaceProvider provider = PlaceProvider.of(context, listen: false);
     return Selector<PlaceProvider, LocationModel?>(
       selector: (final _, final provider) =>
-      provider.cameraPosition==null?null:
-      LocationModel(provider.cameraPosition!.latitude, provider.cameraPosition!.longitude),
+          provider.cameraPosition == null ? null : LocationModel(provider.cameraPosition!.latitude, provider.cameraPosition!.longitude),
       builder: (final context, final data, final __) {
         if (!zoomControlsEnabled || data == null) {
           return Container();
@@ -35,25 +34,25 @@ class ZoomButtons extends StatelessWidget {
                         icon: const Icon(Icons.add),
                         onPressed: () async {
                           double? currentZoomLevel = await provider.mapController.getZoomLevel();
-                          if(currentZoomLevel==null) {
-                            return ;
+                          if (currentZoomLevel == null) {
+                            return;
                           }
                           currentZoomLevel = currentZoomLevel + 2;
-                          await provider.mapController.animateCamera(target:data,zoomLevel: currentZoomLevel);
+                          await provider.mapController.animateCamera(target: data, zoomLevel: currentZoomLevel);
                         }),
                     const SizedBox(height: 2),
                     IconButton(
                         icon: const Icon(Icons.remove),
                         onPressed: () async {
                           double? currentZoomLevel = await provider.mapController.getZoomLevel();
-                          if(currentZoomLevel==null) {
-                            return ;
+                          if (currentZoomLevel == null) {
+                            return;
                           }
                           currentZoomLevel = currentZoomLevel - 2;
                           if (currentZoomLevel < 0) {
                             currentZoomLevel = 0;
                           }
-                          await provider.mapController.animateCamera(target:data,zoomLevel: currentZoomLevel);
+                          await provider.mapController.animateCamera(target: data, zoomLevel: currentZoomLevel);
                         }),
                   ],
                 ),

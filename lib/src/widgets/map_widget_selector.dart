@@ -11,7 +11,6 @@ import 'package:provider/provider.dart';
 import 'package:ultra_map_place_picker/src/widgets/ultra_map.dart';
 
 class MapWidgetSelector extends StatelessWidget {
-  
   final LocationModel initialTarget;
   final void Function(PlaceProvider) searchByCameraLocation;
   final VoidCallback? onMoveStart;
@@ -48,55 +47,57 @@ class MapWidgetSelector extends StatelessWidget {
   final Set<UltraPolygonModel> polygons;
   final Set<UltraPolylineModel> polylines;
 
-  const MapWidgetSelector({super.key, required  this.initialTarget,
-    required  this.searchByCameraLocation,
-    required  this.onMoveStart,
-    required  this.onMapCreated,
-    required  this.onPlacePicked,
-    required  this.debounceMilliseconds,
-    required  this.usePinPointingSearch,
-    required  this.selectInitialPosition,
-    required  this.language,
-    required  this.pickArea,
-    required  this.hidePlaceDetailsWhenDraggingPin,
-    required  this.onCameraMoveStarted,
-    required  this.onCameraMove,
-    required  this.onCameraIdle,
-    required  this.selectText,
-    required  this.zoomGesturesEnabled,
-    required  this.zoomControlsEnabled,
-    required  this.isHuaweiDevice,
-    required  this.initialZoomValue,
-    required  this.polygons,
-    required  this.polylines}
-      );
+  const MapWidgetSelector(
+      {super.key,
+      required this.initialTarget,
+      required this.searchByCameraLocation,
+      required this.onMoveStart,
+      required this.onMapCreated,
+      required this.onPlacePicked,
+      required this.debounceMilliseconds,
+      required this.usePinPointingSearch,
+      required this.selectInitialPosition,
+      required this.language,
+      required this.pickArea,
+      required this.hidePlaceDetailsWhenDraggingPin,
+      required this.onCameraMoveStarted,
+      required this.onCameraMove,
+      required this.onCameraIdle,
+      required this.selectText,
+      required this.zoomGesturesEnabled,
+      required this.zoomControlsEnabled,
+      required this.isHuaweiDevice,
+      required this.initialZoomValue,
+      required this.polygons,
+      required this.polylines});
 
   @override
   Widget build(BuildContext context) {
     return Selector<PlaceProvider, UltraMapType>(
         selector: (final _, final provider) => provider.mapType,
-        builder: (final _, final mapType, final __) =>
-            UltraMap(provider: PlaceProvider.of(context,listen: false),
-    isHuaweiDevice: isHuaweiDevice,
-              initialTarget: initialTarget,
-              mapType: mapType,
-              searchByCameraLocation: searchByCameraLocation,
-              onMoveStart: onMoveStart,
-              onMapCreated: onMapCreated,
-              onPlacePicked: onPlacePicked,
-              debounceMilliseconds: debounceMilliseconds,
-              usePinPointingSearch: usePinPointingSearch,
-              selectInitialPosition: selectInitialPosition,
-              language: language,
-              pickArea: pickArea,
-              hidePlaceDetailsWhenDraggingPin: hidePlaceDetailsWhenDraggingPin,
-              onCameraMoveStarted: onCameraMoveStarted, 
+        builder: (final _, final mapType, final __) => UltraMap(
+            provider: PlaceProvider.of(context, listen: false),
+            isHuaweiDevice: isHuaweiDevice,
+            initialTarget: initialTarget,
+            mapType: mapType,
+            searchByCameraLocation: searchByCameraLocation,
+            onMoveStart: onMoveStart,
+            onMapCreated: onMapCreated,
+            onPlacePicked: onPlacePicked,
+            debounceMilliseconds: debounceMilliseconds,
+            usePinPointingSearch: usePinPointingSearch,
+            selectInitialPosition: selectInitialPosition,
+            language: language,
+            pickArea: pickArea,
+            hidePlaceDetailsWhenDraggingPin: hidePlaceDetailsWhenDraggingPin,
+            onCameraMoveStarted: onCameraMoveStarted,
             onCameraMove: onCameraMove,
-    onCameraIdle: onCameraIdle,
-    selectText: selectText,
-    zoomGesturesEnabled: zoomGesturesEnabled,
-    zoomControlsEnabled: zoomControlsEnabled,
-    initialZoomValue: initialZoomValue, polygons: polygons,
-    polylines: polylines));
+            onCameraIdle: onCameraIdle,
+            selectText: selectText,
+            zoomGesturesEnabled: zoomGesturesEnabled,
+            zoomControlsEnabled: zoomControlsEnabled,
+            initialZoomValue: initialZoomValue,
+            polygons: polygons,
+            polylines: polylines));
   }
 }

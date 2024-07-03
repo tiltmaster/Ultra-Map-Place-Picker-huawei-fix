@@ -31,7 +31,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return UltraPlacePicker(
+    return UltraMapPlacePicker(
       googleApiKey: 'MY KEY',
       initialPosition: LocationModel(25.1974767426511, 55.279669543133615),
       mapTypes:(isHuaweiDevice)=>isHuaweiDevice?  [UltraMapType.normal]:UltraMapType.values,

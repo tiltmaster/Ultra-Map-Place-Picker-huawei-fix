@@ -8,7 +8,7 @@ class DefaultPin extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-     if (state == PinState.preparing) {
+    if (state == PinState.preparing) {
       return Container();
     } else if (state == PinState.idle) {
       return Stack(
