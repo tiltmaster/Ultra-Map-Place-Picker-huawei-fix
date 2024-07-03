@@ -11,12 +11,13 @@ and the Flutter guide for
 [developing packages and plugins](https://flutter.dev/developing-packages).
 -->
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+A Flutter package that simplifies location selection on maps, regardless of device type.
+This package offers seamless location selection for users on both Google Maps-enabled devices and those that are not, such as Huawei devices.
 
 ## Features
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+![](assets/videos/google.mp4)
+![](assets/videos/petal.mp4)
 
 ## Getting started
 
