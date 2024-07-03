@@ -22,22 +22,27 @@ class UltraMapController {
     }
   }
 
-  Future<void> animateCamera({required LocationModel target, required double zoomLevel}) async {
-    await googleMapController?.animateCamera(gm.CameraUpdate.newCameraPosition(gm.CameraPosition(
-        target: gm.LatLng(
-          target.latitude,
-          target.longitude,
-        ),
-        zoom: zoomLevel)));
-    await huaweiMapController?.animateCamera(hm.CameraUpdate.newCameraPosition(hm.CameraPosition(
-        target: hm.LatLng(
-          target.latitude,
-          target.longitude,
-        ),
-        zoom: zoomLevel)));
+  Future<void> animateCamera(
+      {required LocationModel target, required double zoomLevel}) async {
+    await googleMapController
+        ?.animateCamera(gm.CameraUpdate.newCameraPosition(gm.CameraPosition(
+            target: gm.LatLng(
+              target.latitude,
+              target.longitude,
+            ),
+            zoom: zoomLevel)));
+    await huaweiMapController
+        ?.animateCamera(hm.CameraUpdate.newCameraPosition(hm.CameraPosition(
+            target: hm.LatLng(
+              target.latitude,
+              target.longitude,
+            ),
+            zoom: zoomLevel)));
   }
 
   Future<double?> getZoomLevel() async {
-    return googleMapController != null ? (await googleMapController?.getZoomLevel()) : (await huaweiMapController?.getZoomLevel());
+    return googleMapController != null
+        ? (await googleMapController?.getZoomLevel())
+        : (await huaweiMapController?.getZoomLevel());
   }
 }

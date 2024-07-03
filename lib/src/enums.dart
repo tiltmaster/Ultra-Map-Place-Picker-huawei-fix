@@ -2,15 +2,13 @@ import 'package:google_maps_flutter/google_maps_flutter.dart' as gm;
 import 'package:huawei_map/huawei_map.dart' as hm;
 
 enum PinState { preparing, idle, dragging }
-
 enum SearchingState { idle, searching }
 
 enum UltraMapType {
   normal(googleMapType: gm.MapType.normal, huaweiMapType: hm.MapType.normal),
   satellite(googleMapType: gm.MapType.satellite, huaweiMapType: hm.MapType.normal),
   terrain(googleMapType: gm.MapType.terrain, huaweiMapType: hm.MapType.terrain),
-  hybrid(googleMapType: gm.MapType.hybrid, huaweiMapType: hm.MapType.normal),
-  ;
+  hybrid(googleMapType: gm.MapType.hybrid, huaweiMapType: hm.MapType.normal);
 
   final gm.MapType googleMapType;
   final hm.MapType huaweiMapType;
