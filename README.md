@@ -35,7 +35,7 @@ To ensure proper installation, please refer to the documentation for the followi
 ## Usage
 you only need to add this simple snippet to show the default sample
 
-```
+```dart
 import 'package:ultra_map_place_picker/ultra_map_place_picker.dart';
 
 @override
