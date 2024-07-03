@@ -11,15 +11,16 @@ and the Flutter guide for
 [developing packages and plugins](https://flutter.dev/developing-packages).
 -->
 
-A Flutter package that simplifies location selection on maps, regardless of device type.
-This package offers seamless location selection for users on both Google Maps-enabled devices and those that are not, such as Huawei devices.
+#### A Flutter package that simplifies location selection on maps, regardless of device type.<br>This package offers seamless location selection for users on both Google Maps-enabled devices and those that are not, such as Huawei devices.
 
 ## Motivation
-Repeating the features because of the different device type is time wasting right? 
+Repeating the features because of the different device type is time-wasting right?
+<br>this package makes selecting from the map so much easier regardless the map type!
+<br>it supports selecting by search or by moving the map camera
 
 
-![Google maps](assets/videos/google.mp4)
-![Petal maps](assets/videos/petal.mp4)
+![Google maps](https://github.com/WissamALSbenaty/Ultra-Map-Place-Picker/blob/main/assets/videos/google.mp4)
+![Petal maps](https://github.com/WissamALSbenaty/Ultra-Map-Place-Picker/blob/main/assets/videos/google.mp4)
 
 ## Getting started
 To ensure proper installation, please refer to the documentation for the following libraries: 
