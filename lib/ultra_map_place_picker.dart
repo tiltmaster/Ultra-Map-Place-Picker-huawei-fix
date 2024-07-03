@@ -1,7 +1,7 @@
 
 
 export 'src/enums.dart';
-export 'src/widgets/ultra_map_place_picker.dart';
+export 'src/widgets/ultra_place_picker.dart';
 export 'src/models/ultra_polygon_model.dart';
 export 'src/models/ultra_polyline_model.dart';
 export 'src/models/location_model.dart';
