@@ -19,7 +19,7 @@ Repeating the features because of the different device type is time-wasting righ
 <br>it supports selecting by search or by moving the map camera
 
 
-[Google maps](https://github.com/WissamALSbenaty/Ultra-Map-Place-Picker/blob/main/assets/videos/google.mp4)
+![Google maps](https://raw.githubusercontent.com/WissamALSbenaty/Ultra-Map-Place-Picker/blob/main/assets/videos/google.mp4)
 ![Petal maps](assets/videos/petal.mp4)
 
 ## Getting started
