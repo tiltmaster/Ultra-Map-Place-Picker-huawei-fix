@@ -7,7 +7,10 @@ import 'package:provider/provider.dart';
 import 'package:ultra_map_place_picker/src/widgets/default_place_widget.dart';
 
 typedef SelectedPlaceWidgetBuilder = Widget Function(
-    BuildContext context, PickResultModel? selectedPlace, SearchingState state, bool isSearchBarFocused);
+    BuildContext context,
+    PickResultModel? selectedPlace,
+    SearchingState state,
+    bool isSearchBarFocused);
 
 class PlaceBuilderSelector extends StatelessWidget {
   final SelectedPlaceWidgetBuilder? selectedPlaceWidgetBuilder;
@@ -29,9 +32,14 @@ class PlaceBuilderSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Selector<PlaceProvider, (PickResultModel?, SearchingState, bool, PinState)>(
-      selector: (final _, final provider) =>
-          (provider.selectedPlace, provider.placeSearchingState, provider.isSearchBarFocused, provider.pinState),
+    return Selector<PlaceProvider,
+        (PickResultModel?, SearchingState, bool, PinState)>(
+      selector: (final _, final provider) => (
+        provider.selectedPlace,
+        provider.placeSearchingState,
+        provider.isSearchBarFocused,
+        provider.pinState
+      ),
       builder: (final context, final data, final __) {
         if (data.$1 == null ||
             data.$2 == SearchingState.searching ||
@@ -49,7 +57,9 @@ class PlaceBuilderSelector extends StatelessWidget {
               onPlacePicked: onPlacePicked,
             );
           } else {
-            return Builder(builder: (final builderContext) => selectedPlaceWidgetBuilder!(builderContext, data.$1, data.$2, data.$3));
+            return Builder(
+                builder: (final builderContext) => selectedPlaceWidgetBuilder!(
+                    builderContext, data.$1, data.$2, data.$3));
           }
         }
       },

@@ -89,16 +89,23 @@ class PickResultModel {
       reviews: result.reviews,
     );
   }
-  LocationModel get toLocationModel => LocationModel(geometry!.location.lat, geometry!.location.lng);
+  LocationModel get toLocationModel =>
+      LocationModel(geometry!.location.lat, geometry!.location.lng);
 
   String get formattedString {
     String result = '';
     final List<AddressComponent> toShowComponents = addressComponents
-            ?.where((final component) => !['plus_code', 'street_number', 'subpremise', 'country'].contains(component.types.first))
+            ?.where((final component) => ![
+                  'plus_code',
+                  'street_number',
+                  'subpremise',
+                  'country'
+                ].contains(component.types.first))
             .toList() ??
         [];
 
-    final Set<String> toShowNames = toShowComponents.map((final component) => component.longName).toSet();
+    final Set<String> toShowNames =
+        toShowComponents.map((final component) => component.longName).toSet();
     for (int i = 0; i < toShowNames.length; i++) {
       result = '$result${toShowNames.elementAt(i)}';
 

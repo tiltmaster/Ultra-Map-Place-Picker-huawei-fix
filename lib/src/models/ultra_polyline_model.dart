@@ -31,7 +31,9 @@ class UltraPolylineModel {
         color: color ?? Colors.black,
         geodesic: geodesic ?? false,
         jointType: jointType?.googleJointType ?? gm.JointType.mitered,
-        points: points.map((point) => gm.LatLng(point.latitude, point.longitude)).toList(),
+        points: points
+            .map((point) => gm.LatLng(point.latitude, point.longitude))
+            .toList(),
         visible: visible ?? true,
         width: width ?? 1,
         zIndex: zIndex ?? 0,
@@ -40,7 +42,9 @@ class UltraPolylineModel {
 
   hm.Polyline get toHuaweiPolyline => hm.Polyline(
         polylineId: hm.PolylineId(polylineId),
-        points: points.map((point) => hm.LatLng(point.latitude, point.longitude)).toList(),
+        points: points
+            .map((point) => hm.LatLng(point.latitude, point.longitude))
+            .toList(),
         geodesic: geodesic ?? false,
         width: width ?? 1,
         color: color ?? Colors.red,

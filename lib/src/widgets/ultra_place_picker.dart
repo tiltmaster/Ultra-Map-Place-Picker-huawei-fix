@@ -105,8 +105,10 @@ class UltraPlacePicker extends StatelessWidget {
     // We don't want to search location again if camera location is changed by zooming in/out.
     if (forceSearchOnZoomChanged == false &&
         provider.prevCameraPosition != null &&
-        provider.prevCameraPosition!.latitude == provider.cameraPosition!.latitude &&
-        provider.prevCameraPosition!.longitude == provider.cameraPosition!.longitude) {
+        provider.prevCameraPosition!.latitude ==
+            provider.cameraPosition!.latitude &&
+        provider.prevCameraPosition!.longitude ==
+            provider.cameraPosition!.longitude) {
       provider.placeSearchingState = SearchingState.idle;
       return;
     }
@@ -119,12 +121,16 @@ class UltraPlacePicker extends StatelessWidget {
 
     provider.placeSearchingState = SearchingState.searching;
 
-    final GeocodingResponse response = await provider.geocoding.searchByLocation(
-      Location(lat: provider.cameraPosition!.latitude, lng: provider.cameraPosition!.longitude),
+    final GeocodingResponse response =
+        await provider.geocoding.searchByLocation(
+      Location(
+          lat: provider.cameraPosition!.latitude,
+          lng: provider.cameraPosition!.longitude),
       language: language,
     );
 
-    if (response.errorMessage?.isNotEmpty == true || response.status == 'REQUEST_DENIED') {
+    if (response.errorMessage?.isNotEmpty == true ||
+        response.status == 'REQUEST_DENIED') {
       if (onSearchFailed != null) {
         onSearchFailed!(response.status);
       }
@@ -133,12 +139,14 @@ class UltraPlacePicker extends StatelessWidget {
     }
 
     if (usePlaceDetailSearch!) {
-      final PlacesDetailsResponse detailResponse = await provider.places.getDetailsByPlaceId(
+      final PlacesDetailsResponse detailResponse =
+          await provider.places.getDetailsByPlaceId(
         response.results[0].placeId,
         language: language,
       );
 
-      if (detailResponse.errorMessage?.isNotEmpty == true || detailResponse.status == 'REQUEST_DENIED') {
+      if (detailResponse.errorMessage?.isNotEmpty == true ||
+          detailResponse.status == 'REQUEST_DENIED') {
         if (onSearchFailed != null) {
           onSearchFailed!(detailResponse.status);
         }
@@ -146,9 +154,11 @@ class UltraPlacePicker extends StatelessWidget {
         return;
       }
 
-      provider.selectedPlace = PickResultModel.fromPlaceDetailResult(detailResponse.result);
+      provider.selectedPlace =
+          PickResultModel.fromPlaceDetailResult(detailResponse.result);
     } else {
-      provider.selectedPlace = PickResultModel.fromGeocodingResult(response.results[0]);
+      provider.selectedPlace =
+          PickResultModel.fromGeocodingResult(response.results[0]);
     }
 
     provider.placeSearchingState = SearchingState.idle;

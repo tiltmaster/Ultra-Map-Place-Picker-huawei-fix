@@ -105,7 +105,9 @@ class AutoCompleteSearchState extends State<AutoCompleteSearch> {
             child: RoundedFrame(
               height: widget.height,
               padding: const EdgeInsets.only(right: 10),
-              color: Theme.of(context).brightness == Brightness.dark ? Colors.black54 : Colors.white,
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? Colors.black54
+                  : Colors.white,
               borderRadius: BorderRadius.circular(20),
               elevation: 4.0,
               child: Row(
@@ -158,7 +160,8 @@ class AutoCompleteSearchState extends State<AutoCompleteSearch> {
       return;
     }
 
-    if (!widget.autocompleteOnTrailingWhitespace! && controller.text.substring(controller.text.length - 1) == ' ') {
+    if (!widget.autocompleteOnTrailingWhitespace! &&
+        controller.text.substring(controller.text.length - 1) == ' ') {
       provider.debounceTimer?.cancel();
       return;
     }
@@ -167,7 +170,8 @@ class AutoCompleteSearchState extends State<AutoCompleteSearch> {
       provider.debounceTimer!.cancel();
     }
 
-    provider.debounceTimer = Timer(Duration(milliseconds: widget.debounceMilliseconds!), () {
+    provider.debounceTimer =
+        Timer(Duration(milliseconds: widget.debounceMilliseconds!), () {
       _searchPlace(controller.text.trim());
     });
   }
@@ -203,14 +207,18 @@ class AutoCompleteSearchState extends State<AutoCompleteSearch> {
   _displayOverlay(final Widget overlayChild) {
     clearOverlay();
 
-    final RenderBox? appBarRenderBox = widget.appBarKey.currentContext!.findRenderObject() as RenderBox?;
+    final RenderBox? appBarRenderBox =
+        widget.appBarKey.currentContext!.findRenderObject() as RenderBox?;
     final translation = appBarRenderBox?.getTransformTo(null).getTranslation();
-    final Offset offset = translation != null ? Offset(translation.x, translation.y) : const Offset(0.0, 0.0);
+    final Offset offset = translation != null
+        ? Offset(translation.x, translation.y)
+        : const Offset(0.0, 0.0);
     final screenWidth = MediaQuery.of(context).size.width;
 
     overlayEntry = OverlayEntry(
       builder: (final context) => Positioned(
-        top: appBarRenderBox!.paintBounds.shift(offset).top + appBarRenderBox.size.height,
+        top: appBarRenderBox!.paintBounds.shift(offset).top +
+            appBarRenderBox.size.height,
         left: screenWidth * 0.025,
         right: screenWidth * 0.025,
         child: Material(
@@ -265,12 +273,15 @@ class AutoCompleteSearchState extends State<AutoCompleteSearch> {
     final PlaceProvider provider = PlaceProvider.of(context, listen: false);
 
     if (searchTerm.isNotEmpty) {
-      final PlacesAutocompleteResponse response = await provider.places.autocomplete(
+      final PlacesAutocompleteResponse response =
+          await provider.places.autocomplete(
         searchTerm,
         sessionToken: widget.sessionToken,
         location: provider.currentPosition == null
             ? null
-            : Location(lat: provider.currentPosition!.latitude, lng: provider.currentPosition!.longitude),
+            : Location(
+                lat: provider.currentPosition!.latitude,
+                lng: provider.currentPosition!.longitude),
         offset: widget.autocompleteOffset,
         radius: widget.autocompleteRadius,
         language: widget.autocompleteLanguage,
@@ -280,7 +291,8 @@ class AutoCompleteSearchState extends State<AutoCompleteSearch> {
         region: widget.region,
       );
 
-      if (response.errorMessage?.isNotEmpty == true || response.status == 'REQUEST_DENIED') {
+      if (response.errorMessage?.isNotEmpty == true ||
+          response.status == 'REQUEST_DENIED') {
         if (widget.onSearchFailed != null) {
           widget.onSearchFailed!(response.status);
         }

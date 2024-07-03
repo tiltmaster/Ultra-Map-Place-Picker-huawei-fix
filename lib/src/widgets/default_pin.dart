@@ -41,7 +41,8 @@ class DefaultPin extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                AnimatedPin(child: Icon(Icons.place, size: 36, color: Colors.red)),
+                AnimatedPin(
+                    child: Icon(Icons.place, size: 36, color: Colors.red)),
                 SizedBox(height: 42),
               ],
             ),

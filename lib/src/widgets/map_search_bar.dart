@@ -61,22 +61,27 @@ class MapSearchBar extends StatelessWidget {
         const SizedBox(width: 15),
         (Navigator.of(context).canPop())
             ? Consumer<PlaceProvider>(
-                builder: (final _, final providerInstance, final __) => IconButton(
-                    onPressed: () {
-                      if (!showIntroModal || introModalWidgetBuilder == null) {
-                        provider?.debounceTimer?.cancel();
-                        if (onTapBack != null) {
-                          onTapBack!();
-                          return;
-                        }
-                        Navigator.maybePop(context);
-                      }
-                    },
-                    icon: const Icon(
-                      Icons.arrow_back_ios,
-                    ),
-                    color: [UltraMapType.normal, UltraMapType.terrain].contains(provider?.mapType) ? Colors.black : Colors.white,
-                    padding: EdgeInsets.zero))
+                builder: (final _, final providerInstance, final __) =>
+                    IconButton(
+                        onPressed: () {
+                          if (!showIntroModal ||
+                              introModalWidgetBuilder == null) {
+                            provider?.debounceTimer?.cancel();
+                            if (onTapBack != null) {
+                              onTapBack!();
+                              return;
+                            }
+                            Navigator.maybePop(context);
+                          }
+                        },
+                        icon: const Icon(
+                          Icons.arrow_back_ios,
+                        ),
+                        color: [UltraMapType.normal, UltraMapType.terrain]
+                                .contains(provider?.mapType)
+                            ? Colors.black
+                            : Colors.white,
+                        padding: EdgeInsets.zero))
             : Container(),
         Expanded(
           child: AutoCompleteSearch(
@@ -101,7 +106,8 @@ class MapSearchBar extends StatelessWidget {
               region: region,
               initialSearchString: initialSearchString,
               searchForInitialValue: searchForInitialValue,
-              autocompleteOnTrailingWhitespace: autocompleteOnTrailingWhitespace),
+              autocompleteOnTrailingWhitespace:
+                  autocompleteOnTrailingWhitespace),
         ),
         const SizedBox(width: 5),
       ],

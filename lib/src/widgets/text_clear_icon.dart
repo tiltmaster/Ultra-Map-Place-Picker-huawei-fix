@@ -18,7 +18,9 @@ class TextClearIcon extends StatelessWidget {
                 onTap: onTap,
                 child: Icon(
                   Icons.clear,
-                  color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Colors.white
+                      : Colors.black,
                 ),
               ),
             );

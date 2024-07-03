@@ -19,7 +19,9 @@ class PinWidgetSelector extends StatelessWidget {
           if (pinBuilder == null) {
             return DefaultPin(state: state);
           } else {
-            return Builder(builder: (final builderContext) => pinBuilder!(builderContext, state));
+            return Builder(
+                builder: (final builderContext) =>
+                    pinBuilder!(builderContext, state));
           }
         },
       ),

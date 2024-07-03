@@ -32,14 +32,22 @@ class UltraPolygonModel {
         polygonId: gm.PolygonId(polygonId),
         fillColor: fillColor ?? Colors.black,
         geodesic: geodesic ?? false,
-        points: points?.map((point) => gm.LatLng(point.latitude, point.longitude)).toList() ?? [],
+        points: points
+                ?.map((point) => gm.LatLng(point.latitude, point.longitude))
+                .toList() ??
+            [],
         visible: visible ?? true,
         strokeColor: strokeColor ?? Colors.black,
         strokeWidth: strokeWidth ?? 10,
         zIndex: zIndex ?? 0,
         onTap: onClick,
         consumeTapEvents: onClick != null,
-        holes: holes?.map((holeList) => holeList.map((hole) => gm.LatLng(hole.latitude, hole.longitude)).toList()).toList() ?? [],
+        holes: holes
+                ?.map((holeList) => holeList
+                    .map((hole) => gm.LatLng(hole.latitude, hole.longitude))
+                    .toList())
+                .toList() ??
+            [],
       );
 
   hm.Polygon get toHuaweiPolygon => hm.Polygon(
@@ -47,8 +55,16 @@ class UltraPolygonModel {
         clickable: onClick != null,
         fillColor: fillColor ?? Colors.black,
         geodesic: geodesic ?? false,
-        points: points?.map((point) => hm.LatLng(point.latitude, point.longitude)).toList() ?? [],
-        holes: holes?.map((holeList) => holeList.map((hole) => hm.LatLng(hole.latitude, hole.longitude)).toList()).toList() ?? [],
+        points: points
+                ?.map((point) => hm.LatLng(point.latitude, point.longitude))
+                .toList() ??
+            [],
+        holes: holes
+                ?.map((holeList) => holeList
+                    .map((hole) => hm.LatLng(hole.latitude, hole.longitude))
+                    .toList())
+                .toList() ??
+            [],
         visible: visible ?? true,
         strokeColor: strokeColor ?? Colors.black,
         strokeWidth: strokeWidth ?? 10,

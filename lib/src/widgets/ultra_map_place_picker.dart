@@ -260,7 +260,8 @@ class PlacePickerState extends State<UltraMapPlacePicker> {
   GlobalKey appBarKey = GlobalKey();
   late final Future<PlaceProvider> _futureProvider;
   PlaceProvider? provider;
-  AutoCompleteSearchController searchBarController = AutoCompleteSearchController();
+  AutoCompleteSearchController searchBarController =
+      AutoCompleteSearchController();
   bool showIntroModal = true;
   bool isHuaweiDevice = false;
 
@@ -278,19 +279,26 @@ class PlacePickerState extends State<UltraMapPlacePicker> {
 
   Future<PlaceProvider> getPlaceProvider() async {
     try {
-      isHuaweiDevice = !(await GoogleHuaweiAvailability.isGoogleServiceAvailable ?? true);
+      isHuaweiDevice =
+          !(await GoogleHuaweiAvailability.isGoogleServiceAvailable ?? true);
       if (isHuaweiDevice) {
         HuaweiMapInitializer.initializeMap();
       }
     } catch (_) {}
-    final Map<String, String> headers = await const GoogleApiHeaders().getHeaders();
-    final PlaceProvider provider =
-        PlaceProvider(widget.googleApiKey, widget.proxyBaseUrl, widget.httpClient, headers, widget.mapTypes(isHuaweiDevice));
+    final Map<String, String> headers =
+        await const GoogleApiHeaders().getHeaders();
+    final PlaceProvider provider = PlaceProvider(
+        widget.googleApiKey,
+        widget.proxyBaseUrl,
+        widget.httpClient,
+        headers,
+        widget.mapTypes(isHuaweiDevice));
     provider.sessionToken = const Uuid().v4();
     provider.desiredAccuracy = widget.desiredLocationAccuracy;
     provider.setUltraMapType(widget.initialMapType);
     if (widget.useCurrentLocation == true) {
-      await provider.updateCurrentLocation(gracefully: widget.ignoreLocationPermissionErrors);
+      await provider.updateCurrentLocation(
+          gracefully: widget.ignoreLocationPermissionErrors);
     }
     return provider;
   }
@@ -328,7 +336,8 @@ class PlacePickerState extends State<UltraMapPlacePicker> {
                       titleSpacing: 0.0,
                       title: MapSearchBar(
                           showIntroModal: showIntroModal,
-                          introModalWidgetBuilder: widget.introModalWidgetBuilder,
+                          introModalWidgetBuilder:
+                              widget.introModalWidgetBuilder,
                           onTapBack: widget.onTapBack,
                           appBarKey: appBarKey,
                           provider: provider,
@@ -340,18 +349,22 @@ class PlacePickerState extends State<UltraMapPlacePicker> {
                           strictbounds: widget.strictbounds,
                           autocompleteTypes: widget.autocompleteTypes,
                           onAutoCompleteFailed: widget.onAutoCompleteFailed,
-                          autoCompleteDebounceInMilliseconds: widget.autoCompleteDebounceInMilliseconds,
+                          autoCompleteDebounceInMilliseconds:
+                              widget.autoCompleteDebounceInMilliseconds,
                           autocompleteRadius: widget.autocompleteRadius,
                           autocompleteLanguage: widget.autocompleteLanguage,
                           initialSearchString: widget.initialSearchString,
-                          autocompleteOnTrailingWhitespace: widget.autocompleteOnTrailingWhitespace,
+                          autocompleteOnTrailingWhitespace:
+                              widget.autocompleteOnTrailingWhitespace,
                           searchForInitialValue: widget.searchForInitialValue,
                           autocompleteComponents: widget.autocompleteComponents,
                           onPicked: _pickPrediction),
                     ),
                     body: (provider!.currentPosition == null)
                         ? _buildMap(widget.initialPosition)
-                        : _buildMap(LocationModel(provider!.currentPosition!.latitude, provider!.currentPosition!.longitude)),
+                        : _buildMap(LocationModel(
+                            provider!.currentPosition!.latitude,
+                            provider!.currentPosition!.longitude)),
                   ),
                   IntroModal(
                     introModalWidgetBuilder: widget.introModalWidgetBuilder,
@@ -392,25 +405,29 @@ class PlacePickerState extends State<UltraMapPlacePicker> {
   _pickPrediction(final Prediction prediction) async {
     provider!.placeSearchingState = SearchingState.searching;
 
-    final PlacesDetailsResponse response = await provider!.places.getDetailsByPlaceId(
+    final PlacesDetailsResponse response =
+        await provider!.places.getDetailsByPlaceId(
       prediction.placeId!,
       sessionToken: provider!.sessionToken,
       language: widget.autocompleteLanguage,
     );
 
-    if (response.errorMessage?.isNotEmpty == true || response.status == 'REQUEST_DENIED') {
+    if (response.errorMessage?.isNotEmpty == true ||
+        response.status == 'REQUEST_DENIED') {
       if (widget.onAutoCompleteFailed != null) {
         widget.onAutoCompleteFailed!(response.status);
       }
       return;
     }
 
-    provider!.selectedPlace = PickResultModel.fromPlaceDetailResult(response.result);
+    provider!.selectedPlace =
+        PickResultModel.fromPlaceDetailResult(response.result);
 
     // Prevents searching again by camera movement.
     provider!.isAutoCompleteSearching = true;
 
-    await _moveTo(provider!.selectedPlace!.geometry!.location.lat, provider!.selectedPlace!.geometry!.location.lng);
+    await _moveTo(provider!.selectedPlace!.geometry!.location.lat,
+        provider!.selectedPlace!.geometry!.location.lng);
 
     if (provider == null) {
       return;
@@ -432,7 +449,8 @@ class PlacePickerState extends State<UltraMapPlacePicker> {
     if (provider?.currentPosition == null) {
       return;
     }
-    await _moveTo(provider!.currentPosition!.latitude, provider!.currentPosition!.longitude);
+    await _moveTo(provider!.currentPosition!.latitude,
+        provider!.currentPosition!.longitude);
   }
 
   Widget _buildMap(final LocationModel initialTarget) {
@@ -479,7 +497,8 @@ class PlacePickerState extends State<UltraMapPlacePicker> {
           Timer(Duration(seconds: widget.myLocationButtonCooldown), () {
             provider!.isOnUpdateLocationCoolDown = false;
           });
-          await provider!.updateCurrentLocation(gracefully: widget.ignoreLocationPermissionErrors);
+          await provider!.updateCurrentLocation(
+              gracefully: widget.ignoreLocationPermissionErrors);
           await _moveToCurrentPosition();
         }
       },

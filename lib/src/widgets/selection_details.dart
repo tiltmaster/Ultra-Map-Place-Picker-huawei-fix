@@ -22,9 +22,13 @@ class SelectionDetails extends StatelessWidget {
     final bool canBePicked = pickArea == null ||
         pickArea!.toGoogleCircle.radius <= 0 ||
         Geolocator.distanceBetween(
-                pickArea!.center.latitude, pickArea!.center.longitude, result.geometry!.location.lat, result.geometry!.location.lng) <=
+                pickArea!.center.latitude,
+                pickArea!.center.longitude,
+                result.geometry!.location.lat,
+                result.geometry!.location.lng) <=
             pickArea!.toGoogleCircle.radius;
-    final WidgetStateColor buttonColor = WidgetStateColor.resolveWith((final states) => canBePicked ? Colors.lightGreen : Colors.red);
+    final WidgetStateColor buttonColor = WidgetStateColor.resolveWith(
+        (final states) => canBePicked ? Colors.lightGreen : Colors.red);
     return Container(
       margin: const EdgeInsets.all(10),
       child: Column(
@@ -35,7 +39,8 @@ class SelectionDetails extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 10),
-          (canBePicked && (selectText?.isEmpty ?? true)) || (!canBePicked && (outsideOfPickAreaText?.isEmpty ?? true))
+          (canBePicked && (selectText?.isEmpty ?? true)) ||
+                  (!canBePicked && (outsideOfPickAreaText?.isEmpty ?? true))
               ? SizedBox.fromSize(
                   size: const Size(56, 56), // button width and height
                   child: ClipOval(
@@ -47,12 +52,17 @@ class SelectionDetails extends StatelessWidget {
                               onPlacePicked!(result);
                             }
                           },
-                          child: Icon(canBePicked ? Icons.check_sharp : Icons.app_blocking_sharp, color: buttonColor)),
+                          child: Icon(
+                              canBePicked
+                                  ? Icons.check_sharp
+                                  : Icons.app_blocking_sharp,
+                              color: buttonColor)),
                     ),
                   ),
                 )
               : SizedBox.fromSize(
-                  size: Size(MediaQuery.of(context).size.width * 0.8, 56), // button width and height
+                  size: Size(MediaQuery.of(context).size.width * 0.8,
+                      56), // button width and height
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10.0),
                     child: Material(
@@ -66,9 +76,17 @@ class SelectionDetails extends StatelessWidget {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(canBePicked ? Icons.check_sharp : Icons.app_blocking_sharp, color: buttonColor),
+                              Icon(
+                                  canBePicked
+                                      ? Icons.check_sharp
+                                      : Icons.app_blocking_sharp,
+                                  color: buttonColor),
                               SizedBox.fromSize(size: const Size(10, 0)),
-                              Text(canBePicked ? selectText! : outsideOfPickAreaText!, style: TextStyle(color: buttonColor))
+                              Text(
+                                  canBePicked
+                                      ? selectText!
+                                      : outsideOfPickAreaText!,
+                                  style: TextStyle(color: buttonColor))
                             ],
                           )),
                     ),

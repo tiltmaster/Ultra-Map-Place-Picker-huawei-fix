@@ -91,10 +91,15 @@ class UltraMap extends StatelessWidget {
             myLocationButtonEnabled: false,
             compassEnabled: false,
             mapToolbarEnabled: false,
-            initialCameraPosition: hm.CameraPosition(target: hm.LatLng(initialTarget.latitude, initialTarget.longitude), zoom: initialZoomValue),
+            initialCameraPosition: hm.CameraPosition(
+                target:
+                    hm.LatLng(initialTarget.latitude, initialTarget.longitude),
+                zoom: initialZoomValue),
             mapType: mapType.huaweiMapType,
             myLocationEnabled: true,
-            circles: pickArea != null && pickArea!.toHuaweiCircle.radius > 0 ? {pickArea!.toHuaweiCircle} : {},
+            circles: pickArea != null && pickArea!.toHuaweiCircle.radius > 0
+                ? {pickArea!.toHuaweiCircle}
+                : {},
             onMapCreated: (final hm.HuaweiMapController controller) {
               provider.mapController.completeHuaweiController(controller);
               provider.setCameraPosition(null);
@@ -122,7 +127,8 @@ class UltraMap extends StatelessWidget {
                   if (provider.debounceTimer?.isActive ?? false) {
                     provider.debounceTimer!.cancel();
                   }
-                  provider.debounceTimer = Timer(Duration(milliseconds: debounceMilliseconds!), () {
+                  provider.debounceTimer =
+                      Timer(Duration(milliseconds: debounceMilliseconds!), () {
                     searchByCameraLocation(provider);
                   });
                 }
@@ -144,12 +150,15 @@ class UltraMap extends StatelessWidget {
               onMoveStart!();
             },
             onCameraMove: (final hm.CameraPosition position) {
-              provider.setCameraPosition(LocationModel(position.target.lat, position.target.lng));
-              onCameraMove?.call(LocationModel(position.target.lat, position.target.lng));
+              provider.setCameraPosition(
+                  LocationModel(position.target.lat, position.target.lng));
+              onCameraMove?.call(
+                  LocationModel(position.target.lat, position.target.lng));
             },
             // gestureRecognizers make it possible to navigate the map when it's a
             // child in a scroll view e.g ListView, SingleChildScrollView...
-            gestureRecognizers: {}..add(Factory<EagerGestureRecognizer>(() => EagerGestureRecognizer())),
+            gestureRecognizers: {}..add(Factory<EagerGestureRecognizer>(
+                () => EagerGestureRecognizer())),
           )
         : gm.GoogleMap(
             polygons: polygons.map((p) => p.toGooglePolygon).toSet(),
@@ -160,10 +169,15 @@ class UltraMap extends StatelessWidget {
             myLocationButtonEnabled: false,
             compassEnabled: false,
             mapToolbarEnabled: false,
-            initialCameraPosition: gm.CameraPosition(target: gm.LatLng(initialTarget.latitude, initialTarget.longitude), zoom: initialZoomValue),
+            initialCameraPosition: gm.CameraPosition(
+                target:
+                    gm.LatLng(initialTarget.latitude, initialTarget.longitude),
+                zoom: initialZoomValue),
             mapType: mapType.googleMapType,
             myLocationEnabled: true,
-            circles: pickArea != null && pickArea!.toGoogleCircle.radius > 0 ? {pickArea!.toGoogleCircle} : {},
+            circles: pickArea != null && pickArea!.toGoogleCircle.radius > 0
+                ? {pickArea!.toGoogleCircle}
+                : {},
             onMapCreated: (final gm.GoogleMapController controller) {
               provider.mapController.completeGoogleController(controller);
               provider.setCameraPosition(null);
@@ -191,7 +205,8 @@ class UltraMap extends StatelessWidget {
                   if (provider.debounceTimer?.isActive ?? false) {
                     provider.debounceTimer!.cancel();
                   }
-                  provider.debounceTimer = Timer(Duration(milliseconds: debounceMilliseconds!), () {
+                  provider.debounceTimer =
+                      Timer(Duration(milliseconds: debounceMilliseconds!), () {
                     searchByCameraLocation(provider);
                   });
                 }
@@ -213,12 +228,15 @@ class UltraMap extends StatelessWidget {
               onMoveStart!();
             },
             onCameraMove: (final gm.CameraPosition position) {
-              provider.setCameraPosition(LocationModel(position.target.latitude, position.target.longitude));
-              onCameraMove?.call(LocationModel(position.target.latitude, position.target.longitude));
+              provider.setCameraPosition(LocationModel(
+                  position.target.latitude, position.target.longitude));
+              onCameraMove?.call(LocationModel(
+                  position.target.latitude, position.target.longitude));
             },
             // gestureRecognizers make it possible to navigate the map when it's a
             // child in a scroll view e.g ListView, SingleChildScrollView...
-            gestureRecognizers: {}..add(Factory<EagerGestureRecognizer>(() => EagerGestureRecognizer())),
+            gestureRecognizers: {}..add(Factory<EagerGestureRecognizer>(
+                () => EagerGestureRecognizer())),
           );
   }
 }

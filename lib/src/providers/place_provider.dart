@@ -14,7 +14,8 @@ import 'package:ultra_map_place_picker/src/enums.dart';
 import 'package:ultra_map_place_picker/src/models/pick_result_model.dart';
 
 class PlaceProvider extends ChangeNotifier {
-  PlaceProvider(final String apiKey, final String? proxyBaseUrl, final Client? httpClient, final Map<String, dynamic> apiHeaders,
+  PlaceProvider(final String apiKey, final String? proxyBaseUrl,
+      final Client? httpClient, final Map<String, dynamic> apiHeaders,
       [this.mapTypes = UltraMapType.values]) {
     _mapType = mapTypes.first;
     places = GoogleMapsPlaces(
@@ -31,7 +32,9 @@ class PlaceProvider extends ChangeNotifier {
     );
   }
 
-  static PlaceProvider of(final BuildContext context, {final bool listen = true}) => Provider.of<PlaceProvider>(context, listen: listen);
+  static PlaceProvider of(final BuildContext context,
+          {final bool listen = true}) =>
+      Provider.of<PlaceProvider>(context, listen: listen);
 
   late GoogleMapsPlaces places;
   late GoogleMapsGeocoding geocoding;
@@ -69,7 +72,8 @@ class PlaceProvider extends ChangeNotifier {
       if (gracefully) {
         return;
       }
-      return Future.error('Location permissions are permanently denied, we cannot request permissions.');
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
     }
 
     _currentPosition = await Geolocator.getCurrentPosition(

@@ -17,7 +17,9 @@ class MapIcons extends StatelessWidget {
     return (appBarKey.currentContext == null)
         ? Container()
         : Positioned(
-            top: (appBarKey.currentContext!.findRenderObject() as RenderBox).size.height,
+            top: (appBarKey.currentContext!.findRenderObject() as RenderBox)
+                .size
+                .height,
             right: 15,
             child: Column(
               children: <Widget>[
@@ -27,7 +29,10 @@ class MapIcons extends StatelessWidget {
                         height: 35,
                         child: RawMaterialButton(
                           shape: const CircleBorder(),
-                          fillColor: Theme.of(context).brightness == Brightness.dark ? Colors.black54 : Colors.white,
+                          fillColor:
+                              Theme.of(context).brightness == Brightness.dark
+                                  ? Colors.black54
+                                  : Colors.white,
                           elevation: 4.0,
                           onPressed: onToggleMapType,
                           child: const Icon(Icons.layers),
@@ -41,7 +46,10 @@ class MapIcons extends StatelessWidget {
                         height: 35,
                         child: RawMaterialButton(
                           shape: const CircleBorder(),
-                          fillColor: Theme.of(context).brightness == Brightness.dark ? Colors.black54 : Colors.white,
+                          fillColor:
+                              Theme.of(context).brightness == Brightness.dark
+                                  ? Colors.black54
+                                  : Colors.white,
                           elevation: 4.0,
                           onPressed: onMyLocation,
                           child: const Icon(Icons.my_location),

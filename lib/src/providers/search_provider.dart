@@ -2,7 +2,9 @@ import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 class SearchProvider extends ChangeNotifier {
-  static SearchProvider of(final BuildContext context, {final bool listen = true}) => Provider.of<SearchProvider>(context, listen: listen);
+  static SearchProvider of(final BuildContext context,
+          {final bool listen = true}) =>
+      Provider.of<SearchProvider>(context, listen: listen);
 
   String prevSearchTerm = '';
   String _searchTerm = '';
