@@ -1,3 +1,7 @@
+## 0.0.5
+
+Add IOS as supported platform
+
 ## 0.0.4
 
 Fix formatting
