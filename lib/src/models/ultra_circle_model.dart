@@ -4,16 +4,32 @@ import 'package:huawei_map/huawei_map.dart' as hm;
 import 'package:ultra_map_place_picker/src/models/location_model.dart';
 
 class UltraCircleModel {
+  /// Unique identifier for the circle
   final String circleId;
-  final LocationModel center;
-  final Color? fillColor;
-  final double? radius;
-  final Color? strokeColor;
-  final int? strokeWidth;
-  final bool? visible;
-  final int? zIndex;
-  final VoidCallback? onTap;
 
+  /// Center location of the circle
+  final LocationModel center;
+
+  /// Fill color of the circle
+  final Color? fillColor;
+
+  /// Radius of the circle in meters
+  final double? radius;
+
+  /// Stroke color of the circle's border
+  final Color? strokeColor;
+
+  /// Stroke width of the circle's border in pixels
+  final int? strokeWidth;
+
+  /// Visibility of the circle
+  final bool? visible;
+
+  /// Z-index of the circle, used for layering
+  final int? zIndex;
+
+  /// Callback function to be invoked when the circle is tapped
+  final VoidCallback? onTap;
   UltraCircleModel(
       {required this.circleId,
       this.fillColor,

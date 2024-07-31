@@ -28,29 +28,72 @@ class PickResultModel {
     this.reviews,
   });
 
+  /// The unique identifier for the place.
   final String? placeId;
+
+  /// The geographical location and viewport of the place.
   final Geometry? geometry;
+
+  /// The human-readable address of the place.
   final String? formattedAddress;
+
+  /// The types of the place (e.g., restaurant, park).
   final List<String>? types;
+
+  /// The components of the address (e.g., street, city, country).
   final List<AddressComponent>? addressComponents;
 
   // Below results will not be fetched if 'usePlaceDetailSearch' is set to false (Defaults to false).
+
+  /// The address in a format suitable for embedding in HTML.
   final String? adrAddress;
+
+  /// The formatted phone number of the place.
   final String? formattedPhoneNumber;
+
+  /// The unique identifier for the place (deprecated in favor of `placeId`).
   final String? id;
+
+  /// A textual identifier that uniquely identifies a place.
   final String? reference;
+
+  /// The URL of an icon representing the place.
   final String? icon;
+
+  /// The name of the place.
   final String? name;
+
+  /// The opening hours of the place.
   final OpeningHoursDetail? openingHours;
+
+  /// Photos associated with the place.
   final List<Photo>? photos;
+
+  /// The international phone number of the place.
   final String? internationalPhoneNumber;
+
+  /// The price level of the place (e.g., inexpensive, moderate).
   final PriceLevel? priceLevel;
+
+  /// The rating of the place (e.g., 4.5).
   final num? rating;
+
+  /// The scope of the place (e.g., Google, App).
   final String? scope;
+
+  /// The URL of the place's official website.
   final String? url;
+
+  /// A textual description of the place's location.
   final String? vicinity;
+
+  /// The UTC offset of the place in minutes.
   final num? utcOffset;
+
+  /// The URL of the place's website.
   final String? website;
+
+  /// Reviews of the place.
   final List<Review>? reviews;
 
   factory PickResultModel.fromGeocodingResult(final GeocodingResult result) {
