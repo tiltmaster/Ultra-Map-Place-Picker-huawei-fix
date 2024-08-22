@@ -306,9 +306,7 @@ class PlacePickerState extends State<UltraMapPlacePicker> {
   @override
   Widget build(final BuildContext context) {
     return PopScope(
-        onPopInvoked: (_) {
-          searchBarController.clearOverlay();
-        },
+    onPopInvokedWithResult: (_,__) => searchBarController.clearOverlay(),
         child: FutureBuilder<PlaceProvider>(
           future: _futureProvider,
           builder: (final context, final snapshot) {

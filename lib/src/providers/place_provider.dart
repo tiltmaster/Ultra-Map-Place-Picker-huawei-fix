@@ -77,6 +77,7 @@ class PlaceProvider extends ChangeNotifier {
     }
 
     _currentPosition = await Geolocator.getCurrentPosition(
+     // locationSettings: Platform.isIOS?AppleSettings():AndroidSettings(),
       desiredAccuracy: desiredAccuracy ?? LocationAccuracy.best,
     );
   }
