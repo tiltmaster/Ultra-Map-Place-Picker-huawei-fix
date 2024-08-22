@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/widgets.dart';
 import 'package:geolocator/geolocator.dart';
@@ -77,8 +78,8 @@ class PlaceProvider extends ChangeNotifier {
     }
 
     _currentPosition = await Geolocator.getCurrentPosition(
-     // locationSettings: Platform.isIOS?AppleSettings():AndroidSettings(),
-      desiredAccuracy: desiredAccuracy ?? LocationAccuracy.best,
+      locationSettings: Platform.isIOS ? AppleSettings() : AndroidSettings(),
+      //desiredAccuracy: desiredAccuracy ?? LocationAccuracy.best,
     );
   }
 
