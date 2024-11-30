@@ -31,15 +31,34 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    return UltraMapPlacePicker(
-      googleApiKey: 'MY KEY',
-      initialPosition: LocationModel(25.1974767426511, 55.279669543133615),
-      mapTypes: (isHuaweiDevice) =>
-          isHuaweiDevice ? [UltraMapType.normal] : UltraMapType.values,
-      myLocationButtonCooldown: 1,
-      zoomControlsEnabled: false,
-      resizeToAvoidBottomInset:
-          false, // only works in page mode, less flickery, remove if wrong offsets
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Map thumbnail'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(24.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            UltraMapThumbnail(
+              height: 250,
+              width: 250,
+              borderRadius: BorderRadius.circular(16),
+              enableScrolling: false,
+              enableMapTypeButton: false,
+              enableMyLocationButton: false,
+              googleApiKey: 'YourApiKey',
+              initialPosition:
+                  LocationModel(25.1974767426511, 55.279669543133615),
+              mapTypes: (isHuaweiDevice) =>
+                  isHuaweiDevice ? [UltraMapType.normal] : UltraMapType.values,
+              zoomControlsEnabled: false,
+              //  resizeToAvoidBottomInset: true, // only works in page mode, less flickery, remove if wrong offsets
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

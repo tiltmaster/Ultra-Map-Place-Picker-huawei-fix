@@ -29,6 +29,7 @@ class SelectionDetails extends StatelessWidget {
             pickArea!.toGoogleCircle.radius;
     final WidgetStateColor buttonColor = WidgetStateColor.resolveWith(
         (final states) => canBePicked ? Colors.lightGreen : Colors.red);
+
     return Container(
       margin: const EdgeInsets.all(10),
       child: Column(
@@ -48,7 +49,7 @@ class SelectionDetails extends StatelessWidget {
                       child: InkWell(
                           overlayColor: buttonColor,
                           onTap: () {
-                            if (canBePicked) {
+                            if (canBePicked && onPlacePicked != null) {
                               onPlacePicked!(result);
                             }
                           },
@@ -69,7 +70,7 @@ class SelectionDetails extends StatelessWidget {
                       child: InkWell(
                           overlayColor: buttonColor,
                           onTap: () {
-                            if (canBePicked) {
+                            if (canBePicked && onPlacePicked != null) {
                               onPlacePicked!(result);
                             }
                           },

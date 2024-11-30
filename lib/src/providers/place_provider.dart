@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:flutter/widgets.dart';
 import 'package:geolocator/geolocator.dart';
@@ -13,10 +12,32 @@ import 'package:ultra_map_place_picker/src/models/location_model.dart';
 import 'package:ultra_map_place_picker/src/controllers/ultra_map_controller.dart';
 import 'package:ultra_map_place_picker/src/enums.dart';
 import 'package:ultra_map_place_picker/src/models/pick_result_model.dart';
+import 'package:ultra_map_place_picker/src/third_parities_modules/abstract/i_live_location_module.dart';
+import 'package:ultra_map_place_picker/src/third_parities_modules/abstract/i_permissions_handler_module.dart';
+import 'package:ultra_map_place_picker/src/third_parities_modules/concrete/live_location_module.dart';
+import 'package:ultra_map_place_picker/src/third_parities_modules/concrete/permissions_handler_module.dart';
 
 class PlaceProvider extends ChangeNotifier {
-  PlaceProvider(final String apiKey, final String? proxyBaseUrl,
-      final Client? httpClient, final Map<String, dynamic> apiHeaders,
+  late GoogleMapsPlaces places;
+  late GoogleMapsGeocoding geocoding;
+  final void Function()? onLocationPermissionDenied;
+  final ILiveLocationModule liveLocation = LiveLocationModule();
+  final IPermissionsHandlerModule permissionsHandler =
+      PermissionsHandlerModule();
+
+  String? sessionToken;
+  bool isOnUpdateLocationCoolDown = false;
+  LocationAccuracy? desiredAccuracy;
+  bool isAutoCompleteSearching = false;
+
+  final List<UltraMapType> mapTypes;
+
+  PlaceProvider(
+      final String apiKey,
+      this.onLocationPermissionDenied,
+      final String? proxyBaseUrl,
+      final Client? httpClient,
+      final Map<String, dynamic> apiHeaders,
       [this.mapTypes = UltraMapType.values]) {
     _mapType = mapTypes.first;
     places = GoogleMapsPlaces(
@@ -37,50 +58,16 @@ class PlaceProvider extends ChangeNotifier {
           {final bool listen = true}) =>
       Provider.of<PlaceProvider>(context, listen: listen);
 
-  late GoogleMapsPlaces places;
-  late GoogleMapsGeocoding geocoding;
-  String? sessionToken;
-  bool isOnUpdateLocationCoolDown = false;
-  LocationAccuracy? desiredAccuracy;
-  bool isAutoCompleteSearching = false;
-
-  final List<UltraMapType> mapTypes;
-
   Future<void> updateCurrentLocation({final bool gracefully = false}) async {
-    bool serviceEnabled;
-    LocationPermission permission;
-
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      if (gracefully) {
-        return;
-      }
-      return Future.error('Location services are disabled.');
-    }
-
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        if (gracefully) {
-          return;
-        }
-        return Future.error('Location permissions are denied');
+    _currentPosition = await liveLocation.getCurrentLocation(
+        gracefully: gracefully, desiredAccuracy: desiredAccuracy);
+    if (_currentPosition == null && !gracefully) {
+      if (onLocationPermissionDenied == null) {
+        await permissionsHandler.openAppSettings();
+      } else {
+        onLocationPermissionDenied!.call();
       }
     }
-
-    if (permission == LocationPermission.deniedForever) {
-      if (gracefully) {
-        return;
-      }
-      return Future.error(
-          'Location permissions are permanently denied, we cannot request permissions.');
-    }
-
-    _currentPosition = await Geolocator.getCurrentPosition(
-      locationSettings: Platform.isIOS ? AppleSettings() : AndroidSettings(),
-      //desiredAccuracy: desiredAccuracy ?? LocationAccuracy.best,
-    );
   }
 
   Position? _currentPosition;
@@ -161,5 +148,18 @@ class PlaceProvider extends ChangeNotifier {
   switchUltraMapType() {
     _mapType = mapTypes[(mapTypes.indexOf(_mapType) + 1) % mapTypes.length];
     notifyListeners();
+  }
+
+  moveTo(final double latitude, final double longitude) async {
+    await mapController.animateCamera(
+        target: LocationModel(latitude, longitude),
+        zoomLevel: await mapController.getZoomLevel());
+  }
+
+  moveToCurrentPosition() async {
+    if (currentPosition == null) {
+      return;
+    }
+    await moveTo(currentPosition!.latitude, currentPosition!.longitude);
   }
 }

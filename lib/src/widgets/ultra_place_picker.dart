@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_google_maps_webservices/geocoding.dart';
 import 'package:flutter_google_maps_webservices/places.dart';
+import 'package:provider/provider.dart';
 import 'package:ultra_map_place_picker/src/models/location_model.dart';
 import 'package:ultra_map_place_picker/src/controllers/ultra_map_controller.dart';
 import 'package:ultra_map_place_picker/src/enums.dart';
@@ -10,10 +11,11 @@ import 'package:ultra_map_place_picker/src/models/ultra_polyline_model.dart';
 import 'package:ultra_map_place_picker/src/providers/place_provider.dart';
 import 'package:ultra_map_place_picker/src/models/ultra_circle_model.dart';
 import 'package:ultra_map_place_picker/src/models/pick_result_model.dart';
+import 'package:ultra_map_place_picker/src/typedefs.dart';
 import 'package:ultra_map_place_picker/src/widgets/map_icons.dart';
-import 'package:ultra_map_place_picker/src/widgets/map_widget_selector.dart';
 import 'package:ultra_map_place_picker/src/widgets/pin_widget_selector.dart';
 import 'package:ultra_map_place_picker/src/widgets/place_builder_selector.dart';
+import 'package:ultra_map_place_picker/src/widgets/ultra_map.dart';
 import 'package:ultra_map_place_picker/src/widgets/zoom_buttons.dart';
 
 class UltraPlacePicker extends StatelessWidget {
@@ -47,10 +49,12 @@ class UltraPlacePicker extends StatelessWidget {
     this.outsideOfPickAreaText,
     this.zoomGesturesEnabled = true,
     this.zoomControlsEnabled = false,
+    this.showPickedPlace = true,
     this.fullMotion = false,
     this.initialZoomValue = 15,
     this.polygons = const {},
     this.polylines = const {},
+    this.enableScrolling = true,
   });
 
   final LocationModel initialTarget;
@@ -73,6 +77,8 @@ class UltraPlacePicker extends StatelessWidget {
   final bool? usePinPointingSearch;
   final bool? usePlaceDetailSearch;
   final bool isHuaweiDevice;
+  final bool enableScrolling;
+  final bool showPickedPlace;
   final bool? selectInitialPosition;
 
   final String? language;
@@ -177,26 +183,27 @@ class UltraPlacePicker extends StatelessWidget {
                   child: Stack(
                     alignment: AlignmentDirectional.center,
                     children: [
-                      buildMapWidgetSelector(),
+                      buildMapWidgetSelector(context),
                       PinWidgetSelector(
                         pinBuilder: pinBuilder,
                       ),
                     ],
                   ))),
         if (!fullMotion) ...[
-          buildMapWidgetSelector(),
+          buildMapWidgetSelector(context),
           PinWidgetSelector(
             pinBuilder: pinBuilder,
           ),
         ],
-        PlaceBuilderSelector(
-          hidePlaceDetailsWhenDraggingPin: hidePlaceDetailsWhenDraggingPin,
-          outsideOfPickAreaText: outsideOfPickAreaText,
-          selectedPlaceWidgetBuilder: selectedPlaceWidgetBuilder,
-          pickArea: pickArea,
-          onPlacePicked: onPlacePicked,
-          selectedText: selectText,
-        ),
+        if (showPickedPlace)
+          PlaceBuilderSelector(
+            hidePlaceDetailsWhenDraggingPin: hidePlaceDetailsWhenDraggingPin,
+            outsideOfPickAreaText: outsideOfPickAreaText,
+            selectedPlaceWidgetBuilder: selectedPlaceWidgetBuilder,
+            pickArea: pickArea,
+            onPlacePicked: onPlacePicked,
+            selectedText: selectText,
+          ),
         MapIcons(
           appBarKey: appBarKey,
           enableMapTypeButton: enableMapTypeButton,
@@ -204,33 +211,37 @@ class UltraPlacePicker extends StatelessWidget {
           onToggleMapType: onToggleMapType,
           enableMyLocationButton: enableMyLocationButton,
         ),
-        ZoomButtons(
-          zoomControlsEnabled: zoomControlsEnabled,
-        )
+        if (zoomControlsEnabled) ZoomButtons()
       ],
     );
   }
 
-  Widget buildMapWidgetSelector() => MapWidgetSelector(
-      initialTarget: initialTarget,
-      searchByCameraLocation: _searchByCameraLocation,
-      onMoveStart: onMoveStart,
-      onMapCreated: onMapCreated,
-      onPlacePicked: onPlacePicked,
-      debounceMilliseconds: debounceMilliseconds,
-      usePinPointingSearch: usePinPointingSearch,
-      selectInitialPosition: selectInitialPosition,
-      language: language,
-      pickArea: pickArea,
-      hidePlaceDetailsWhenDraggingPin: hidePlaceDetailsWhenDraggingPin,
-      onCameraMoveStarted: onCameraMoveStarted,
-      onCameraMove: onCameraMove,
-      onCameraIdle: onCameraIdle,
-      selectText: selectText,
-      zoomGesturesEnabled: zoomGesturesEnabled,
-      zoomControlsEnabled: zoomControlsEnabled,
-      isHuaweiDevice: isHuaweiDevice,
-      initialZoomValue: initialZoomValue,
-      polygons: polygons,
-      polylines: polylines);
+  Widget buildMapWidgetSelector(BuildContext context) =>
+      Selector<PlaceProvider, UltraMapType>(
+          selector: (final _, final provider) => provider.mapType,
+          builder: (final _, final mapType, final __) => UltraMap(
+              enableScrolling: enableScrolling,
+              provider: PlaceProvider.of(context, listen: false),
+              isHuaweiDevice: isHuaweiDevice,
+              initialTarget: initialTarget,
+              mapType: mapType,
+              searchByCameraLocation: _searchByCameraLocation,
+              onMoveStart: onMoveStart,
+              onMapCreated: onMapCreated,
+              onPlacePicked: onPlacePicked,
+              debounceMilliseconds: debounceMilliseconds,
+              usePinPointingSearch: usePinPointingSearch,
+              selectInitialPosition: selectInitialPosition,
+              language: language,
+              pickArea: pickArea,
+              hidePlaceDetailsWhenDraggingPin: hidePlaceDetailsWhenDraggingPin,
+              onCameraMoveStarted: onCameraMoveStarted,
+              onCameraMove: onCameraMove,
+              onCameraIdle: onCameraIdle,
+              selectText: selectText,
+              zoomGesturesEnabled: zoomGesturesEnabled,
+              zoomControlsEnabled: zoomControlsEnabled,
+              initialZoomValue: initialZoomValue,
+              polygons: polygons,
+              polylines: polylines));
 }

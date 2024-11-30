@@ -1,16 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:ultra_map_place_picker/src/enums.dart';
-import 'package:ultra_map_place_picker/src/models/ultra_circle_model.dart';
-import 'package:ultra_map_place_picker/src/models/pick_result_model.dart';
 import 'package:ultra_map_place_picker/src/providers/place_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:ultra_map_place_picker/src/widgets/default_place_widget.dart';
-
-typedef SelectedPlaceWidgetBuilder = Widget Function(
-    BuildContext context,
-    PickResultModel? selectedPlace,
-    SearchingState state,
-    bool isSearchBarFocused);
+import 'package:ultra_map_place_picker/ultra_map_place_picker.dart';
 
 class PlaceBuilderSelector extends StatelessWidget {
   final SelectedPlaceWidgetBuilder? selectedPlaceWidgetBuilder;

@@ -1,3 +1,11 @@
+## 0.1.1
+Fix: passing all ultra map thumbnail parameters 
+
+## 0.1.0
+Fix: if the user doesn't enable location permission then pressing on current location button will open app settings
+Feat: add ability to disable scrolling of the map
+Feat: add ultra_map_thumbnail widget
+
 ## 0.0.8+1
 
 Update dependencies

@@ -40,9 +40,10 @@ class UltraMapController {
             zoom: zoomLevel)));
   }
 
-  Future<double?> getZoomLevel() async {
-    return googleMapController != null
-        ? (await googleMapController?.getZoomLevel())
-        : (await huaweiMapController?.getZoomLevel());
+  Future<double> getZoomLevel() async {
+    return (googleMapController != null
+            ? (await googleMapController?.getZoomLevel())
+            : (await huaweiMapController?.getZoomLevel())) ??
+        14;
   }
 }

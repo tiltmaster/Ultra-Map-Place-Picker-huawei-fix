@@ -30,7 +30,7 @@ class AutoCompleteSearch extends StatefulWidget {
       this.autocompleteLanguage,
       this.autocompleteComponents,
       this.autocompleteTypes,
-      this.strictbounds,
+      this.strictBounds,
       this.region,
       this.initialSearchString,
       this.searchForInitialValue,
@@ -51,7 +51,7 @@ class AutoCompleteSearch extends StatefulWidget {
   final String? autocompleteLanguage;
   final List<String>? autocompleteTypes;
   final List<Component>? autocompleteComponents;
-  final bool? strictbounds;
+  final bool? strictBounds;
   final String? region;
   final GlobalKey appBarKey;
   final String? initialSearchString;
@@ -287,7 +287,7 @@ class AutoCompleteSearchState extends State<AutoCompleteSearch> {
         language: widget.autocompleteLanguage,
         types: widget.autocompleteTypes ?? const [],
         components: widget.autocompleteComponents ?? const [],
-        strictbounds: widget.strictbounds ?? false,
+        strictbounds: widget.strictBounds ?? false,
         region: widget.region,
       );
 

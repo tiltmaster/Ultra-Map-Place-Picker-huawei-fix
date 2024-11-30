@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_google_maps_webservices/places.dart';
 import 'package:ultra_map_place_picker/src/controllers/auto_complete_search_controller.dart';
-import 'package:ultra_map_place_picker/src/enums.dart';
 import 'package:ultra_map_place_picker/src/providers/place_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:ultra_map_place_picker/src/widgets/auto_complete_search.dart';
-import 'package:ultra_map_place_picker/src/widgets/intro_modal.dart';
+import 'package:ultra_map_place_picker/ultra_map_place_picker.dart';
 
 class MapSearchBar extends StatelessWidget {
   final bool showIntroModal;
@@ -18,7 +17,7 @@ class MapSearchBar extends StatelessWidget {
   final String? hintText;
   final String? searchingText;
   final String? region;
-  final bool? strictbounds;
+  final bool? strictBounds;
   final List<String>? autocompleteTypes;
   final ValueChanged<String>? onAutoCompleteFailed;
   final int autoCompleteDebounceInMilliseconds;
@@ -42,7 +41,7 @@ class MapSearchBar extends StatelessWidget {
       required this.hintText,
       required this.searchingText,
       required this.region,
-      required this.strictbounds,
+      required this.strictBounds,
       required this.autocompleteTypes,
       required this.onAutoCompleteFailed,
       required this.autoCompleteDebounceInMilliseconds,
@@ -102,7 +101,7 @@ class MapSearchBar extends StatelessWidget {
               autocompleteLanguage: autocompleteLanguage,
               autocompleteComponents: autocompleteComponents,
               autocompleteTypes: autocompleteTypes,
-              strictbounds: strictbounds,
+              strictBounds: strictBounds,
               region: region,
               initialSearchString: initialSearchString,
               searchForInitialValue: searchForInitialValue,

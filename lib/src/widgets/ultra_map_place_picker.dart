@@ -8,27 +8,20 @@ import 'package:google_api_headers/google_api_headers.dart';
 import 'package:google_huawei_availability/google_huawei_availability.dart';
 import 'package:huawei_map/huawei_map.dart';
 import 'package:ultra_map_place_picker/src/widgets/ultra_place_picker.dart';
+import 'package:ultra_map_place_picker/ultra_map_place_picker.dart';
 import 'package:uuid/uuid.dart';
-import 'package:ultra_map_place_picker/src/models/location_model.dart';
 import 'package:ultra_map_place_picker/src/controllers/auto_complete_search_controller.dart';
 import 'package:ultra_map_place_picker/src/controllers/ultra_map_controller.dart';
-import 'package:ultra_map_place_picker/src/enums.dart';
-import 'package:ultra_map_place_picker/src/models/ultra_circle_model.dart';
-import 'package:ultra_map_place_picker/src/models/pick_result_model.dart';
-import 'package:ultra_map_place_picker/src/models/ultra_polygon_model.dart';
-import 'package:ultra_map_place_picker/src/models/ultra_polyline_model.dart';
 import 'package:ultra_map_place_picker/src/providers/place_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:ultra_map_place_picker/src/widgets/intro_modal.dart';
 import 'package:ultra_map_place_picker/src/widgets/map_search_bar.dart';
-import 'package:ultra_map_place_picker/src/widgets/pin_widget_selector.dart';
-import 'package:ultra_map_place_picker/src/widgets/place_builder_selector.dart';
 
 class UltraMapPlacePicker extends StatefulWidget {
   const UltraMapPlacePicker({
     required this.initialPosition,
     required this.googleApiKey,
     required this.mapTypes,
+    this.onLocationPermissionDenied,
     super.key,
     this.onPlacePicked,
     this.useCurrentLocation,
@@ -53,15 +46,16 @@ class UltraMapPlacePicker extends StatefulWidget {
     this.myLocationButtonCooldown = 10,
     this.usePinPointingSearch = true,
     this.usePlaceDetailSearch = false,
+    this.enableScrolling = true,
     this.autocompleteOffset,
     this.autocompleteRadius,
     this.autocompleteLanguage,
     this.autocompleteComponents,
     this.autocompleteTypes,
-    this.strictbounds,
+    this.strictBounds,
     this.region,
     this.pickArea,
-    this.selectInitialPosition = false,
+    this.selectInitialPosition = true,
     this.resizeToAvoidBottomInset = true,
     this.initialSearchString,
     this.searchForInitialValue = false,
@@ -69,6 +63,7 @@ class UltraMapPlacePicker extends StatefulWidget {
     this.autocompleteOnTrailingWhitespace = false,
     this.hidePlaceDetailsWhenDraggingPin = true,
     this.ignoreLocationPermissionErrors = false,
+    this.enableSearching = true,
     this.onTapBack,
     this.onCameraMoveStarted,
     this.onCameraMove,
@@ -76,6 +71,7 @@ class UltraMapPlacePicker extends StatefulWidget {
     this.onMapTypeChanged,
     this.zoomGesturesEnabled = true,
     this.zoomControlsEnabled = false,
+    this.showPickedPlace = true,
     this.initialZoomValue = 15,
     this.polygons = const {},
     this.polylines = const {},
@@ -116,6 +112,9 @@ class UltraMapPlacePicker extends StatefulWidget {
   final UltraMapType initialMapType;
   final bool enableMapTypeButton;
   final bool enableMyLocationButton;
+  final bool enableScrolling;
+  final bool showPickedPlace;
+  final bool enableSearching;
   final int myLocationButtonCooldown;
 
   final bool usePinPointingSearch;
@@ -126,11 +125,13 @@ class UltraMapPlacePicker extends StatefulWidget {
   final String? autocompleteLanguage;
   final List<String>? autocompleteTypes;
   final List<Component>? autocompleteComponents;
-  final bool? strictbounds;
+  final bool? strictBounds;
   final String? region;
 
   final double initialZoomValue;
   final List<UltraMapType> Function(bool isHuaweiDevice) mapTypes;
+
+  final void Function()? onLocationPermissionDenied;
 
   /// If set the picker can only pick addresses in the given circle area.
   /// The section will be highlighted.
@@ -289,6 +290,7 @@ class PlacePickerState extends State<UltraMapPlacePicker> {
         await const GoogleApiHeaders().getHeaders();
     final PlaceProvider provider = PlaceProvider(
         widget.googleApiKey,
+        widget.onLocationPermissionDenied,
         widget.proxyBaseUrl,
         widget.httpClient,
         headers,
@@ -323,50 +325,60 @@ class PlacePickerState extends State<UltraMapPlacePicker> {
                     key: ValueKey<int>(provider.hashCode),
                     resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
                     extendBodyBehindAppBar: true,
-                    appBar: AppBar(
-                      key: appBarKey,
-                      automaticallyImplyLeading: false,
-                      iconTheme: Theme.of(context).iconTheme,
-                      elevation: 0,
-                      surfaceTintColor: Colors.transparent,
-                      shadowColor: Colors.transparent,
-                      backgroundColor: Colors.transparent,
-                      titleSpacing: 0.0,
-                      title: MapSearchBar(
-                          showIntroModal: showIntroModal,
-                          introModalWidgetBuilder:
-                              widget.introModalWidgetBuilder,
-                          onTapBack: widget.onTapBack,
-                          appBarKey: appBarKey,
-                          provider: provider,
-                          searchBarController: searchBarController,
-                          autocompleteOffset: widget.autocompleteOffset,
-                          hintText: widget.hintText,
-                          searchingText: widget.searchingText,
-                          region: widget.region,
-                          strictbounds: widget.strictbounds,
-                          autocompleteTypes: widget.autocompleteTypes,
-                          onAutoCompleteFailed: widget.onAutoCompleteFailed,
-                          autoCompleteDebounceInMilliseconds:
-                              widget.autoCompleteDebounceInMilliseconds,
-                          autocompleteRadius: widget.autocompleteRadius,
-                          autocompleteLanguage: widget.autocompleteLanguage,
-                          initialSearchString: widget.initialSearchString,
-                          autocompleteOnTrailingWhitespace:
-                              widget.autocompleteOnTrailingWhitespace,
-                          searchForInitialValue: widget.searchForInitialValue,
-                          autocompleteComponents: widget.autocompleteComponents,
-                          onPicked: _pickPrediction),
-                    ),
-                    body: (provider!.currentPosition == null)
-                        ? _buildMap(widget.initialPosition)
-                        : _buildMap(LocationModel(
-                            provider!.currentPosition!.latitude,
+                    appBar: widget.enableSearching
+                        ? AppBar(
+                            key: appBarKey,
+                            automaticallyImplyLeading: false,
+                            iconTheme: Theme.of(context).iconTheme,
+                            elevation: 0,
+                            surfaceTintColor: Colors.transparent,
+                            shadowColor: Colors.transparent,
+                            backgroundColor: Colors.transparent,
+                            titleSpacing: 0.0,
+                            title: MapSearchBar(
+                                showIntroModal: showIntroModal,
+                                introModalWidgetBuilder:
+                                    widget.introModalWidgetBuilder,
+                                onTapBack: widget.onTapBack,
+                                appBarKey: appBarKey,
+                                provider: provider,
+                                searchBarController: searchBarController,
+                                autocompleteOffset: widget.autocompleteOffset,
+                                hintText: widget.hintText,
+                                searchingText: widget.searchingText,
+                                region: widget.region,
+                                strictBounds: widget.strictBounds,
+                                autocompleteTypes: widget.autocompleteTypes,
+                                onAutoCompleteFailed:
+                                    widget.onAutoCompleteFailed,
+                                autoCompleteDebounceInMilliseconds:
+                                    widget.autoCompleteDebounceInMilliseconds,
+                                autocompleteRadius: widget.autocompleteRadius,
+                                autocompleteLanguage:
+                                    widget.autocompleteLanguage,
+                                initialSearchString: widget.initialSearchString,
+                                autocompleteOnTrailingWhitespace:
+                                    widget.autocompleteOnTrailingWhitespace,
+                                searchForInitialValue:
+                                    widget.searchForInitialValue,
+                                autocompleteComponents:
+                                    widget.autocompleteComponents,
+                                onPicked: _pickPrediction),
+                          )
+                        : null,
+                    body: _buildMap(provider!.currentPosition == null
+                        ? widget.initialPosition
+                        : LocationModel(provider!.currentPosition!.latitude,
                             provider!.currentPosition!.longitude)),
                   ),
-                  IntroModal(
-                    introModalWidgetBuilder: widget.introModalWidgetBuilder,
-                  ),
+                  if (showIntroModal && widget.introModalWidgetBuilder != null)
+                    widget.introModalWidgetBuilder!(context, () {
+                      if (mounted) {
+                        setState(() {
+                          showIntroModal = false;
+                        });
+                      }
+                    }),
                 ]),
               );
             }
@@ -424,7 +436,7 @@ class PlacePickerState extends State<UltraMapPlacePicker> {
     // Prevents searching again by camera movement.
     provider!.isAutoCompleteSearching = true;
 
-    await _moveTo(provider!.selectedPlace!.geometry!.location.lat,
+    await provider!.moveTo(provider!.selectedPlace!.geometry!.location.lat,
         provider!.selectedPlace!.geometry!.location.lng);
 
     if (provider == null) {
@@ -433,26 +445,10 @@ class PlacePickerState extends State<UltraMapPlacePicker> {
     provider!.placeSearchingState = SearchingState.idle;
   }
 
-  _moveTo(final double latitude, final double longitude) async {
-    if (provider?.mapController == null) {
-      return;
-    }
-    await provider!.mapController.animateCamera(
-      target: LocationModel(latitude, longitude),
-      zoomLevel: widget.initialZoomValue,
-    );
-  }
-
-  _moveToCurrentPosition() async {
-    if (provider?.currentPosition == null) {
-      return;
-    }
-    await _moveTo(provider!.currentPosition!.latitude,
-        provider!.currentPosition!.longitude);
-  }
-
   Widget _buildMap(final LocationModel initialTarget) {
     return UltraPlacePicker(
+      showPickedPlace: widget.showPickedPlace,
+      enableScrolling: widget.enableScrolling,
       isHuaweiDevice: isHuaweiDevice,
       polygons: widget.polygons,
       polylines: widget.polylines,
@@ -497,13 +493,14 @@ class PlacePickerState extends State<UltraMapPlacePicker> {
           });
           await provider!.updateCurrentLocation(
               gracefully: widget.ignoreLocationPermissionErrors);
-          await _moveToCurrentPosition();
+          await provider!.moveToCurrentPosition();
         }
       },
       onMoveStart: () {
         if (provider == null) {
           return;
         }
+
         searchBarController.reset();
       },
       onPlacePicked: widget.onPlacePicked,

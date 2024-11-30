@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:ultra_map_place_picker/src/enums.dart';
 import 'package:ultra_map_place_picker/src/providers/place_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:ultra_map_place_picker/src/widgets/default_pin.dart';
-
-typedef PinBuilder = Widget Function(BuildContext context, PinState state);
+import 'package:ultra_map_place_picker/ultra_map_place_picker.dart';
 
 class PinWidgetSelector extends StatelessWidget {
   final PinBuilder? pinBuilder;
