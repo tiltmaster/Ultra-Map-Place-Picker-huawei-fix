@@ -1,3 +1,6 @@
+## 0.1.2
+Update dependencies after Flutter v3.27.0
+
 ## 0.1.1
 Fix: passing all ultra map thumbnail parameters 
 
