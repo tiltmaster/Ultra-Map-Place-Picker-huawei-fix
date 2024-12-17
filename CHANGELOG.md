@@ -1,3 +1,6 @@
+## 0.2.0+2
+Fix: fix analyser issue
+
 ## 0.2.0+1
 Fix: fix exports
 

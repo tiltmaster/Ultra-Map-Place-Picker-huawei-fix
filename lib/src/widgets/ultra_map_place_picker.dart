@@ -11,7 +11,6 @@ import 'package:ultra_map_place_picker/src/widgets/ultra_place_picker.dart';
 import 'package:ultra_map_place_picker/ultra_map_place_picker.dart';
 import 'package:uuid/uuid.dart';
 import 'package:ultra_map_place_picker/src/controllers/auto_complete_search_controller.dart';
-import 'package:ultra_map_place_picker/src/controllers/ultra_map_controller.dart';
 import 'package:ultra_map_place_picker/src/providers/place_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:ultra_map_place_picker/src/widgets/map_search_bar.dart';

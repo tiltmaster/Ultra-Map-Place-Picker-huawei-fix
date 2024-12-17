@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:ultra_map_place_picker/ultra_map_place_picker.dart';
-import 'package:ultra_map_place_picker/src/controllers/ultra_map_controller.dart';
 
 class UltraMapThumbnail extends StatelessWidget {
   const UltraMapThumbnail({
