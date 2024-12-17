@@ -3,7 +3,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart' as gm;
 import 'package:huawei_map/huawei_map.dart' as hm;
 
 /// Defines an information window that shows up when a [Marker] is tapped.
-class UltraInfoWindow {
+class UltraInfoWindowModel {
   /// Title of a [Marker].
   ///
   /// By default, the title is empty.
@@ -19,9 +19,9 @@ class UltraInfoWindow {
   final VoidCallback? onClick;
 
   /// Empty information window.
-  static const UltraInfoWindow noText = UltraInfoWindow();
+  static const UltraInfoWindowModel noText = UltraInfoWindowModel();
 
-  const UltraInfoWindow({
+  const UltraInfoWindowModel({
     this.title,
     this.snippet,
     this.anchor = const Offset(0.5, 0.0),
@@ -42,8 +42,8 @@ class UltraInfoWindow {
         onClick: onClick,
       );
 
-  /// Copies an existing [UltraInfoWindow] object and updates the specified attributes.
-  UltraInfoWindow updateCopy({
+  /// Copies an existing [UltraInfoWindowModel] object and updates the specified attributes.
+  UltraInfoWindowModel updateCopy({
     String? title,
     String? snippet,
     Offset? anchor,
@@ -51,7 +51,7 @@ class UltraInfoWindow {
     VoidCallback? onLongClick,
     VoidCallback? onClose,
   }) {
-    return UltraInfoWindow(
+    return UltraInfoWindowModel(
       title: title ?? this.title,
       snippet: snippet ?? this.snippet,
       anchor: anchor ?? this.anchor,
@@ -67,7 +67,7 @@ class UltraInfoWindow {
     if (runtimeType != other.runtimeType) {
       return false;
     }
-    return other is UltraInfoWindow &&
+    return other is UltraInfoWindowModel &&
         title == other.title &&
         snippet == other.snippet &&
         anchor == other.anchor;

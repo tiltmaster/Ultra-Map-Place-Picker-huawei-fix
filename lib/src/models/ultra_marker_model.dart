@@ -4,7 +4,7 @@ import 'package:huawei_map/huawei_map.dart' as hm;
 import 'package:ultra_map_place_picker/src/models/ultra_location_model.dart';
 
 import 'ultra_bitmap_descriptor_model.dart';
-import 'ultra_info_window.dart';
+import 'ultra_info_window_model.dart';
 
 /// Defines an icon placed at a specified position on a map.
 
@@ -16,7 +16,7 @@ class UltraMarkerModel {
   final UltraLocationModel position;
 
   /// Information window of a
-  final UltraInfoWindow infoWindow;
+  final UltraInfoWindowModel infoWindow;
 
   /// Anchor point of a
   final Offset anchor;
@@ -81,7 +81,7 @@ class UltraMarkerModel {
   const UltraMarkerModel({
     required this.markerId,
     required this.position,
-    this.infoWindow = UltraInfoWindow.noText,
+    this.infoWindow = UltraInfoWindowModel.noText,
     this.anchor = const Offset(0.5, 1.0),
     this.draggable = false,
     this.flat = false,
@@ -101,7 +101,7 @@ class UltraMarkerModel {
   /// Copies a [UltraMarkerModel] object and updates the specified attributes.
   UltraMarkerModel updateCopy({
     UltraLocationModel? position,
-    UltraInfoWindow? infoWindow,
+    UltraInfoWindowModel? infoWindow,
     Offset? anchor,
     bool? draggable,
     bool? flat,
