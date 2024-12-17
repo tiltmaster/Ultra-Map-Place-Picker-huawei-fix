@@ -73,6 +73,7 @@ class UltraMapPlacePicker extends StatefulWidget {
     this.zoomControlsEnabled = false,
     this.showPickedPlace = true,
     this.initialZoomValue = 15,
+    this.markers = const {},
     this.polygons = const {},
     this.polylines = const {},
   });
@@ -81,7 +82,7 @@ class UltraMapPlacePicker extends StatefulWidget {
   final String googleApiKey;
 
   /// The initial location to center the map on.
-  final LocationModel initialPosition;
+  final UltraLocationModel initialPosition;
 
   /// Whether to use the user's current location as the initial position.
   final bool? useCurrentLocation;
@@ -236,7 +237,7 @@ class UltraMapPlacePicker extends StatefulWidget {
   ///
   /// This may be called as often as once every frame and should
   /// not perform expensive operations.
-  final void Function(LocationModel)? onCameraMove;
+  final void Function(UltraLocationModel)? onCameraMove;
 
   /// Called when camera movement has ended, there are no pending
   /// animations and the user has stopped interacting with the map.
@@ -251,6 +252,7 @@ class UltraMapPlacePicker extends StatefulWidget {
   /// Allow user to make visible the zoom button
   final bool zoomControlsEnabled;
 
+  final Set<UltraMarkerModel> markers;
   final Set<UltraPolygonModel> polygons;
   final Set<UltraPolylineModel> polylines;
   @override
@@ -368,8 +370,8 @@ class PlacePickerState extends State<UltraMapPlacePicker> {
                         : null,
                     body: _buildMap(provider!.currentPosition == null
                         ? widget.initialPosition
-                        : LocationModel(provider!.currentPosition!.latitude,
-                            provider!.currentPosition!.longitude)),
+                        : UltraLocationModel.fromPosition(
+                            provider!.currentPosition!)),
                   ),
                   if (showIntroModal && widget.introModalWidgetBuilder != null)
                     widget.introModalWidgetBuilder!(context, () {
@@ -445,13 +447,14 @@ class PlacePickerState extends State<UltraMapPlacePicker> {
     provider!.placeSearchingState = SearchingState.idle;
   }
 
-  Widget _buildMap(final LocationModel initialTarget) {
+  Widget _buildMap(final UltraLocationModel initialTarget) {
     return UltraPlacePicker(
       showPickedPlace: widget.showPickedPlace,
       enableScrolling: widget.enableScrolling,
       isHuaweiDevice: isHuaweiDevice,
       polygons: widget.polygons,
       polylines: widget.polylines,
+      markers: widget.markers,
       initialZoomValue: widget.initialZoomValue,
       fullMotion: !widget.resizeToAvoidBottomInset,
       initialTarget: initialTarget,

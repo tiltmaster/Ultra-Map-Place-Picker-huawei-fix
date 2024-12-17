@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart' as gm;
 import 'package:huawei_map/huawei_map.dart' as hm;
-import 'package:ultra_map_place_picker/src/models/location_model.dart';
+import 'package:ultra_map_place_picker/src/models/ultra_location_model.dart';
 
 class UltraCircleModel {
   /// Unique identifier for the circle
   final String circleId;
 
   /// Center location of the circle
-  final LocationModel center;
+  final UltraLocationModel center;
 
   /// Fill color of the circle
   final Color? fillColor;
@@ -43,7 +43,7 @@ class UltraCircleModel {
 
   gm.Circle get toGoogleCircle => gm.Circle(
         circleId: gm.CircleId(circleId),
-        center: gm.LatLng(center.latitude, center.longitude),
+        center: center.googleLatLng,
         strokeWidth: strokeWidth ?? 1,
         visible: visible ?? true,
         consumeTapEvents: onTap != null,
@@ -56,7 +56,7 @@ class UltraCircleModel {
 
   hm.Circle get toHuaweiCircle => hm.Circle(
         circleId: hm.CircleId(circleId),
-        center: hm.LatLng(center.latitude, center.longitude),
+        center: center.huaweiLatLng,
         strokeWidth: strokeWidth ?? 1,
         visible: visible ?? true,
         clickable: onTap != null,

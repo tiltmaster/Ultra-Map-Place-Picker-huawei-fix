@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_google_maps_webservices/geocoding.dart';
 import 'package:flutter_google_maps_webservices/places.dart';
 import 'package:provider/provider.dart';
-import 'package:ultra_map_place_picker/src/models/location_model.dart';
+import 'package:ultra_map_place_picker/src/models/ultra_location_model.dart';
 import 'package:ultra_map_place_picker/src/controllers/ultra_map_controller.dart';
 import 'package:ultra_map_place_picker/src/enums.dart';
+import 'package:ultra_map_place_picker/src/models/ultra_marker_model.dart';
 import 'package:ultra_map_place_picker/src/models/ultra_polygon_model.dart';
 import 'package:ultra_map_place_picker/src/models/ultra_polyline_model.dart';
 import 'package:ultra_map_place_picker/src/providers/place_provider.dart';
@@ -54,10 +55,11 @@ class UltraPlacePicker extends StatelessWidget {
     this.initialZoomValue = 15,
     this.polygons = const {},
     this.polylines = const {},
+    this.markers = const {},
     this.enableScrolling = true,
   });
 
-  final LocationModel initialTarget;
+  final UltraLocationModel initialTarget;
   final GlobalKey appBarKey;
 
   final SelectedPlaceWidgetBuilder? selectedPlaceWidgetBuilder;
@@ -89,7 +91,7 @@ class UltraPlacePicker extends StatelessWidget {
 
   /// GoogleMap pass-through events:
   final Function(PlaceProvider)? onCameraMoveStarted;
-  final void Function(LocationModel)? onCameraMove;
+  final void Function(UltraLocationModel)? onCameraMove;
   final Function(PlaceProvider)? onCameraIdle;
 
   // strings
@@ -106,6 +108,7 @@ class UltraPlacePicker extends StatelessWidget {
 
   final Set<UltraPolygonModel> polygons;
   final Set<UltraPolylineModel> polylines;
+  final Set<UltraMarkerModel> markers;
 
   _searchByCameraLocation(final PlaceProvider provider) async {
     // We don't want to search location again if camera location is changed by zooming in/out.
@@ -220,28 +223,31 @@ class UltraPlacePicker extends StatelessWidget {
       Selector<PlaceProvider, UltraMapType>(
           selector: (final _, final provider) => provider.mapType,
           builder: (final _, final mapType, final __) => UltraMap(
-              enableScrolling: enableScrolling,
-              provider: PlaceProvider.of(context, listen: false),
-              isHuaweiDevice: isHuaweiDevice,
-              initialTarget: initialTarget,
-              mapType: mapType,
-              searchByCameraLocation: _searchByCameraLocation,
-              onMoveStart: onMoveStart,
-              onMapCreated: onMapCreated,
-              onPlacePicked: onPlacePicked,
-              debounceMilliseconds: debounceMilliseconds,
-              usePinPointingSearch: usePinPointingSearch,
-              selectInitialPosition: selectInitialPosition,
-              language: language,
-              pickArea: pickArea,
-              hidePlaceDetailsWhenDraggingPin: hidePlaceDetailsWhenDraggingPin,
-              onCameraMoveStarted: onCameraMoveStarted,
-              onCameraMove: onCameraMove,
-              onCameraIdle: onCameraIdle,
-              selectText: selectText,
-              zoomGesturesEnabled: zoomGesturesEnabled,
-              zoomControlsEnabled: zoomControlsEnabled,
-              initialZoomValue: initialZoomValue,
-              polygons: polygons,
-              polylines: polylines));
+                enableScrolling: enableScrolling,
+                provider: PlaceProvider.of(context, listen: false),
+                isHuaweiDevice: isHuaweiDevice,
+                initialTarget: initialTarget,
+                mapType: mapType,
+                searchByCameraLocation: _searchByCameraLocation,
+                onMoveStart: onMoveStart,
+                onMapCreated: onMapCreated,
+                onPlacePicked: onPlacePicked,
+                debounceMilliseconds: debounceMilliseconds,
+                usePinPointingSearch: usePinPointingSearch,
+                selectInitialPosition: selectInitialPosition,
+                language: language,
+                pickArea: pickArea,
+                hidePlaceDetailsWhenDraggingPin:
+                    hidePlaceDetailsWhenDraggingPin,
+                onCameraMoveStarted: onCameraMoveStarted,
+                onCameraMove: onCameraMove,
+                onCameraIdle: onCameraIdle,
+                selectText: selectText,
+                zoomGesturesEnabled: zoomGesturesEnabled,
+                zoomControlsEnabled: zoomControlsEnabled,
+                initialZoomValue: initialZoomValue,
+                polygons: polygons,
+                polylines: polylines,
+                markers: markers,
+              ));
 }

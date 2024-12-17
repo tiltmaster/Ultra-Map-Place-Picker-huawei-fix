@@ -8,7 +8,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart';
 import 'package:huawei_map/huawei_map.dart';
 import 'package:provider/provider.dart';
-import 'package:ultra_map_place_picker/src/models/location_model.dart';
+import 'package:ultra_map_place_picker/src/models/ultra_location_model.dart';
 import 'package:ultra_map_place_picker/src/controllers/ultra_map_controller.dart';
 import 'package:ultra_map_place_picker/src/enums.dart';
 import 'package:ultra_map_place_picker/src/models/pick_result_model.dart';
@@ -84,15 +84,15 @@ class PlaceProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  LocationModel? _previousCameraPosition;
-  LocationModel? get prevCameraPosition => _previousCameraPosition;
-  setPrevCameraPosition(final LocationModel? prePosition) {
+  UltraLocationModel? _previousCameraPosition;
+  UltraLocationModel? get prevCameraPosition => _previousCameraPosition;
+  setPrevCameraPosition(final UltraLocationModel? prePosition) {
     _previousCameraPosition = prePosition;
   }
 
-  LocationModel? _currentCameraPosition;
-  LocationModel? get cameraPosition => _currentCameraPosition;
-  setCameraPosition(final LocationModel? newPosition) {
+  UltraLocationModel? _currentCameraPosition;
+  UltraLocationModel? get cameraPosition => _currentCameraPosition;
+  setCameraPosition(final UltraLocationModel? newPosition) {
     _currentCameraPosition = newPosition;
   }
 
@@ -152,7 +152,7 @@ class PlaceProvider extends ChangeNotifier {
 
   moveTo(final double latitude, final double longitude) async {
     await mapController.animateCamera(
-        target: LocationModel(latitude, longitude),
+        target: UltraLocationModel(latitude, longitude),
         zoomLevel: await mapController.getZoomLevel());
   }
 

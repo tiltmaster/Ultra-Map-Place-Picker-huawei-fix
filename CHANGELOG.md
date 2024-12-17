@@ -1,4 +1,7 @@
-## 0.1.2
+## 0.2.0
+Feat: add markers parameter
+
+# 0.1.2
 Update dependencies after Flutter v3.27.0
 
 ## 0.1.1

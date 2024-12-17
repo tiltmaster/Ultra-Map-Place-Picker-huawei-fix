@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart' as gm;
 import 'package:huawei_map/huawei_map.dart' as hm;
-import 'package:ultra_map_place_picker/src/models/location_model.dart';
+import 'package:ultra_map_place_picker/src/models/ultra_location_model.dart';
 
 class UltraPolygonModel {
   final String polygonId;
   final Color? fillColor;
   final bool? geodesic;
-  final List<LocationModel>? points;
+  final List<UltraLocationModel>? points;
   final bool? visible;
   final Color? strokeColor;
   final int? strokeWidth;
   final int? zIndex;
   final VoidCallback? onClick;
-  final List<List<LocationModel>>? holes;
+  final List<List<UltraLocationModel>>? holes;
 
   UltraPolygonModel({
     required this.polygonId,
@@ -32,10 +32,7 @@ class UltraPolygonModel {
         polygonId: gm.PolygonId(polygonId),
         fillColor: fillColor ?? Colors.black,
         geodesic: geodesic ?? false,
-        points: points
-                ?.map((point) => gm.LatLng(point.latitude, point.longitude))
-                .toList() ??
-            [],
+        points: points?.map((point) => point.googleLatLng).toList() ?? [],
         visible: visible ?? true,
         strokeColor: strokeColor ?? Colors.black,
         strokeWidth: strokeWidth ?? 10,
@@ -43,9 +40,8 @@ class UltraPolygonModel {
         onTap: onClick,
         consumeTapEvents: onClick != null,
         holes: holes
-                ?.map((holeList) => holeList
-                    .map((hole) => gm.LatLng(hole.latitude, hole.longitude))
-                    .toList())
+                ?.map((holeList) =>
+                    holeList.map((hole) => hole.googleLatLng).toList())
                 .toList() ??
             [],
       );
@@ -55,14 +51,10 @@ class UltraPolygonModel {
         clickable: onClick != null,
         fillColor: fillColor ?? Colors.black,
         geodesic: geodesic ?? false,
-        points: points
-                ?.map((point) => hm.LatLng(point.latitude, point.longitude))
-                .toList() ??
-            [],
+        points: points?.map((point) => point.huaweiLatLng).toList() ?? [],
         holes: holes
-                ?.map((holeList) => holeList
-                    .map((hole) => hm.LatLng(hole.latitude, hole.longitude))
-                    .toList())
+                ?.map((holeList) =>
+                    holeList.map((hole) => hole.huaweiLatLng).toList())
                 .toList() ??
             [],
         visible: visible ?? true,

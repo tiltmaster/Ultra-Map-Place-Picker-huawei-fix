@@ -5,18 +5,19 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart' as gm;
 import 'package:huawei_map/huawei_map.dart' as hm;
-import 'package:ultra_map_place_picker/src/models/location_model.dart';
+import 'package:ultra_map_place_picker/src/models/ultra_location_model.dart';
 import 'package:ultra_map_place_picker/src/controllers/ultra_map_controller.dart';
 import 'package:ultra_map_place_picker/src/enums.dart';
 import 'package:ultra_map_place_picker/src/models/ultra_circle_model.dart';
 import 'package:ultra_map_place_picker/src/models/pick_result_model.dart';
+import 'package:ultra_map_place_picker/src/models/ultra_marker_model.dart';
 import 'package:ultra_map_place_picker/src/models/ultra_polygon_model.dart';
 import 'package:ultra_map_place_picker/src/models/ultra_polyline_model.dart';
 import 'package:ultra_map_place_picker/src/providers/place_provider.dart';
 
 class UltraMap extends StatelessWidget {
   final PlaceProvider provider;
-  final LocationModel initialTarget;
+  final UltraLocationModel initialTarget;
   final UltraMapType mapType;
   final void Function(PlaceProvider) searchByCameraLocation;
   final VoidCallback? onMoveStart;
@@ -36,7 +37,7 @@ class UltraMap extends StatelessWidget {
 
   /// GoogleMap pass-through events:
   final Function(PlaceProvider)? onCameraMoveStarted;
-  final void Function(LocationModel)? onCameraMove;
+  final void Function(UltraLocationModel)? onCameraMove;
   final Function(PlaceProvider)? onCameraIdle;
 
   // strings
@@ -53,6 +54,7 @@ class UltraMap extends StatelessWidget {
 
   final Set<UltraPolygonModel> polygons;
   final Set<UltraPolylineModel> polylines;
+  final Set<UltraMarkerModel> markers;
 
   const UltraMap({
     super.key,
@@ -79,6 +81,7 @@ class UltraMap extends StatelessWidget {
     required this.initialZoomValue,
     required this.polygons,
     required this.polylines,
+    required this.markers,
     this.enableScrolling = true,
   });
 
@@ -97,9 +100,7 @@ class UltraMap extends StatelessWidget {
               compassEnabled: false,
               mapToolbarEnabled: false,
               initialCameraPosition: hm.CameraPosition(
-                  target: hm.LatLng(
-                      initialTarget.latitude, initialTarget.longitude),
-                  zoom: initialZoomValue),
+                  target: initialTarget.huaweiLatLng, zoom: initialZoomValue),
               mapType: mapType.huaweiMapType,
               myLocationEnabled: true,
               circles: pickArea != null && pickArea!.toHuaweiCircle.radius > 0
@@ -156,14 +157,16 @@ class UltraMap extends StatelessWidget {
               },
               onCameraMove: (final hm.CameraPosition position) {
                 provider.setCameraPosition(
-                    LocationModel(position.target.lat, position.target.lng));
+                    UltraLocationModel.fromHuaweiLatLng(position.target));
                 onCameraMove?.call(
-                    LocationModel(position.target.lat, position.target.lng));
+                    UltraLocationModel.fromHuaweiLatLng(position.target));
               },
               // gestureRecognizers make it possible to navigate the map when it's a
               // child in a scroll view e.g ListView, SingleChildScrollView...
               gestureRecognizers: {}..add(Factory<EagerGestureRecognizer>(
                   () => EagerGestureRecognizer())),
+
+              markers: markers.map((marker) => marker.huaweiMarker).toSet(),
             )
           : gm.GoogleMap(
               polygons: polygons.map((p) => p.toGooglePolygon).toSet(),
@@ -175,9 +178,7 @@ class UltraMap extends StatelessWidget {
               compassEnabled: false,
               mapToolbarEnabled: false,
               initialCameraPosition: gm.CameraPosition(
-                  target: gm.LatLng(
-                      initialTarget.latitude, initialTarget.longitude),
-                  zoom: initialZoomValue),
+                  target: initialTarget.googleLatLng, zoom: initialZoomValue),
               mapType: mapType.googleMapType,
               myLocationEnabled: true,
               circles: pickArea != null && pickArea!.toGoogleCircle.radius > 0
@@ -233,15 +234,17 @@ class UltraMap extends StatelessWidget {
                 onMoveStart!();
               },
               onCameraMove: (final gm.CameraPosition position) {
-                provider.setCameraPosition(LocationModel(
-                    position.target.latitude, position.target.longitude));
-                onCameraMove?.call(LocationModel(
-                    position.target.latitude, position.target.longitude));
+                provider.setCameraPosition(
+                    UltraLocationModel.fromGoogleLatLng(position.target));
+                onCameraMove?.call(
+                    UltraLocationModel.fromGoogleLatLng(position.target));
               },
               // gestureRecognizers make it possible to navigate the map when it's a
               // child in a scroll view e.g ListView, SingleChildScrollView...
               gestureRecognizers: {}..add(Factory<EagerGestureRecognizer>(
                   () => EagerGestureRecognizer())),
+
+              markers: markers.map((marker) => marker.googleMarker).toSet(),
             ),
     );
   }

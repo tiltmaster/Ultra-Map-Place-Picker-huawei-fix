@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ultra_map_place_picker/src/models/location_model.dart';
+import 'package:ultra_map_place_picker/src/models/ultra_location_model.dart';
 import 'package:ultra_map_place_picker/src/providers/place_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -9,11 +9,8 @@ class ZoomButtons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     PlaceProvider provider = PlaceProvider.of(context, listen: false);
-    return Selector<PlaceProvider, LocationModel?>(
-      selector: (final _, final provider) => provider.cameraPosition == null
-          ? null
-          : LocationModel(provider.cameraPosition!.latitude,
-              provider.cameraPosition!.longitude),
+    return Selector<PlaceProvider, UltraLocationModel?>(
+      selector: (final _, final provider) => provider.cameraPosition,
       builder: (final context, final data, final __) => data != null
           ? Positioned(
               bottom: MediaQuery.of(context).size.height * 0.1 - 3.6,

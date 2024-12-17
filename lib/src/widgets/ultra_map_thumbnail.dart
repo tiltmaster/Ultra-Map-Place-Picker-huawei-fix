@@ -41,7 +41,7 @@ class UltraMapThumbnail extends StatelessWidget {
   final String googleApiKey;
 
   /// The initial location to center the map on.
-  final LocationModel initialPosition;
+  final UltraLocationModel initialPosition;
 
   /// The desired accuracy for the user's location.
   final LocationAccuracy desiredLocationAccuracy;
