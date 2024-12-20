@@ -22,9 +22,10 @@ platforms:
 dependencies:
   flutter:
     sdk: flutter
-
+  #temp fix
   provider: ^6.1.2
-  google_huawei_availability: ^1.4.0
+  google_huawei_availability:
+    git: https://github.com/amirul-beintl/google_huawei_availability.git
   huawei_map: ^6.11.2+304
   google_api_headers: ^4.3.0
   flutter_google_maps_webservices: ^1.1.1
